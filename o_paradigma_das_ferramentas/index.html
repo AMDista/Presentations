@@ -394,6 +394,20 @@ html, body {
 /* ── Points + extra item ────────────────────────────────── */
 .points-with-extra { display: flex; flex-direction: column; gap: 0; flex: 1; }
 .points-with-extra .points { flex: 0 0 auto; gap: 28px; }
+
+/* ── Inline slide citations ──────────────────────────────── */
+.slide-refs {
+  margin-top: auto;
+  padding-top: 14px;
+  padding-bottom: 80px; /* clearance para o footer absoluto */
+  border-top: 1px solid var(--border);
+  font-family: 'Arial', sans-serif;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+}
+.slide-refs em { font-style: italic; color: var(--text-dim); }
 </style>
 </head>
 <body>
@@ -515,17 +529,43 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">Este ensaio argumenta que a limitação é <strong>estrutural</strong> — não corrigível com mais tutoriais de ferramentas.</span></li>
   </ul>
+  <div class="slide-refs">Dwivedi et al., 2023 · Buckingham, 2006, 2007 · DigComp 2.2 (European Commission, 2022)</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
     <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-1"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 2 — Duas literacias ═══ -->
-<div class="slide slide-content" data-index="2" data-title="Duas literacias"
-  data-notes="DigComp 2.2 (European Commission, 2022) incorpora progressivamente a dimensão crítica, mas na implementação prática das orientações, nos planos de formação docente e nas iniciativas institucionais, a dimensão instrumental continua a prevalecer. Buckingham (2006, 2007): usar uma ferramenta não equivale a compreendê-la. Lankshear &amp; Knobel (2008): literacia digital como práticas situadas, não competências técnicas uniformes.">
+<!-- ═══ SLIDE 2 — ABORDAGEM ═══ -->
+<div class="slide slide-content" data-index="2" data-title="Abordagem"
+  data-notes="Este ensaio situa-se numa tradição de análise crítica dos discursos e práticas em torno da literacia digital (Buckingham, 2006; Hobbs, 2010; Lankshear &amp; Knobel, 2008). Não é um estudo empírico nem avalia uma intervenção pedagógica específica — é uma revisão argumentativa que propõe uma reorientação conceptual. O argumento desenvolve-se em três movimentos: diagnóstico do paradigma dominante, análise das suas consequências e proposta de três eixos alternativos.">
   <div class="slide-header">
     <span class="slide-number">02</span>
+    <h2 class="slide-title"><span class="accent">Abordagem</span></h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text"><strong>Ensaio teórico e conceptual</strong> — não um estudo empírico.
+        <span class="point-sub">Revisão crítica de literatura em literacia digital, ciências da educação e IA.</span></span></li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Argumento em três movimentos: <strong>diagnóstico</strong> do paradigma dominante → análise das suas <strong>consequências práticas</strong> → <strong>proposta alternativa</strong>.</span></li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Referências cruzadas: literacia digital (Buckingham; Hobbs; Lankshear &amp; Knobel), ensino superior (Biggs &amp; Tang), IA e segurança informática (Trimble; NIST; Schneier), frameworks internacionais (UNESCO; DigComp 2.2; AI Act).</span></li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Proposta normativa: três eixos alternativos ao paradigma instrumental — <strong>curadoria de contexto</strong>, <strong>soberania de dados</strong> e <strong>integridade documental</strong>.</span></li>
+  </ul>
+  <div class="slide-refs">Buckingham, 2006, 2007 · Hobbs, 2010 · Lankshear &amp; Knobel, 2008 · Biggs &amp; Tang, 2011</div>
+  <div class="slide-footer">
+    <span class="footer-left">O Paradigma das Ferramentas</span>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-2"></div></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3 — Duas literacias ═══ -->
+<div class="slide slide-content" data-index="3" data-title="Duas literacias"
+  data-notes="DigComp 2.2 (European Commission, 2022) incorpora progressivamente a dimensão crítica, mas na implementação prática das orientações, nos planos de formação docente e nas iniciativas institucionais, a dimensão instrumental continua a prevalecer. Buckingham (2006, 2007): usar uma ferramenta não equivale a compreendê-la. Lankshear &amp; Knobel (2008): literacia digital como práticas situadas, não competências técnicas uniformes.">
+  <div class="slide-header">
+    <span class="slide-number">03</span>
     <h2 class="slide-title">Duas literacias — <span class="accent">o mesmo problema</span></h2>
   </div>
   <ul class="points">
@@ -540,17 +580,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">Com a IA generativa, esta tensão torna-se <strong>mais consequente</strong> — os modelos são opacos por design.</span></li>
   </ul>
+  <div class="slide-refs">Buckingham, 2006, 2007 · Lankshear &amp; Knobel, 2008 · DigComp 2.2 (European Commission, 2022) · Gürel &amp; Nazlı, 2023</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-2"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-3"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 3 — Paradoxo da acessibilidade ═══ -->
-<div class="slide slide-content" data-index="3" data-title="O paradoxo da acessibilidade"
+<!-- ═══ SLIDE 4 — Paradoxo da acessibilidade ═══ -->
+<div class="slide slide-content" data-index="4" data-title="O paradoxo da acessibilidade"
   data-notes="Investigação sobre a relação humano-chatbot demonstra que quanto mais humana parece a interface, mais forte é a ligação emocional que os utilizadores desenvolvem, independentemente da sua consciência de interagir com uma máquina (Rupprechter &amp; Dienlin, 2025). Em cada geração tecnológica, a acessibilidade foi conquistada ao custo da transparência. A intuitividade é uma construção de design — não um reflexo da complexidade real do sistema.">
   <div class="slide-header">
-    <span class="slide-number">03</span>
+    <span class="slide-number">04</span>
     <h2 class="slide-title">O paradoxo da <span class="accent">acessibilidade</span></h2>
   </div>
   <div class="slide-table-wrap">
@@ -559,25 +600,27 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
       <tbody>
         <tr><td class="td-label">Anos 80</td><td>Linha de comandos → GUI</td><td class="td-dim">Visibilidade do sistema operativo</td></tr>
         <tr><td class="td-label">Anos 2000</td><td>Web 2.0</td><td class="td-dim">Arquitectura de dados e modelos de negócio</td></tr>
-        <tr><td class="td-label">Hoje</td><td>Chatbot em linguagem natural</td><td class="td-dim">Tudo o que está por baixo</td></tr>
+        <tr><td class="td-label">Anos 2010</td><td>Interface táctil</td><td class="td-dim">Compreensão do sistema operativo</td></tr>
+        <tr><td class="td-label">Hoje</td><td>Chatbot em linguagem natural</td><td class="td-dim">Contacto com o contexto</td></tr>
       </tbody>
     </table>
-    <ul class="points" style="margin-top:52px; gap:0">
+    <ul class="points" style="margin-top:36px; gap:0">
       <li class="point"><span class="point-marker"></span>
         <span class="point-text">A intuitividade de um chatbot não é transparência — é <strong>design deliberado</strong> para manter a conexão com o utilizador.</span></li>
     </ul>
   </div>
+  <div class="slide-refs">Sparrow, Liu &amp; Wegner, 2011 · Rupprechter &amp; Dienlin, 2025</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-3"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-4"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 4 — O que o modelo realmente faz ═══ -->
-<div class="slide slide-content" data-index="4" data-title="O que o modelo realmente faz"
+<!-- ═══ SLIDE 5 — O que o modelo realmente faz ═══ -->
+<div class="slide slide-content" data-index="5" data-title="O que o modelo realmente faz"
   data-notes="Os modelos de linguagem de grande escala são sistemas estatísticos de predição de tokens, não sistemas de raciocínio com acesso a conhecimento verificado (Trimble, 2023). Para estudantes sem uma compreensão funcional de como estes modelos operam, a avaliação crítica das respostas é estruturalmente dificultada — não por falta de capacidade intelectual, mas por falta de um modelo mental adequado do sistema com que interagem.">
   <div class="slide-header">
-    <span class="slide-number">04</span>
+    <span class="slide-number">05</span>
     <h2 class="slide-title">O que o modelo <span class="accent">realmente faz</span></h2>
   </div>
   <div class="slide-table-wrap">
@@ -594,17 +637,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
         <span class="point-text">Um modelo que alucina não está a mentir — está a ser muito bom a <strong>completar padrões</strong>.</span></li>
     </ul>
   </div>
+  <div class="slide-refs">Trimble, 2023 · Lund et al., 2023</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-4"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-5"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 5 — Automation bias ═══ -->
-<div class="slide slide-content" data-index="5" data-title="Automation bias"
-  data-notes="Quanto mais fluida e confiante parecer a resposta do sistema, menor é a probabilidade de o utilizador a questionar. Este fenómeno é agravado pela fluidez das interfaces conversacionais, que simulam familiaridade e reduzem a fricção cognitiva necessária para uma relação crítica com o sistema (Wegner &amp; Ward, 2013). O conceito de automation bias foi identificado inicialmente em contextos de aviação e medicina, mas estende-se a qualquer domínio onde sistemas automatizados fornecem recomendações (Parasuraman &amp; Manzey, 2010).">
+<!-- ═══ SLIDE 6 — Automation bias ═══ -->
+<div class="slide slide-content" data-index="6" data-title="Automation bias"
+  data-notes="Quanto mais fluida e confiante parecer a resposta do sistema, menor é a probabilidade de o utilizador a questionar. Este fenómeno é agravado pela fluidez das interfaces conversacionais, que simulam familiaridade e reduzem a fricção cognitiva necessária para uma relação crítica com o sistema (Rupprechter &amp; Dienlin, 2025). O conceito de automation bias foi identificado inicialmente em contextos de aviação e medicina, mas estende-se a qualquer domínio onde sistemas automatizados fornecem recomendações (Parasuraman &amp; Manzey, 2010).">
   <div class="slide-header">
-    <span class="slide-number">05</span>
+    <span class="slide-number">06</span>
     <h2 class="slide-title">Automation bias — <span class="accent">o problema invisível</span></h2>
   </div>
   <ul class="points">
@@ -614,21 +658,22 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">Exemplo: um estudante pede referências ao ChatGPT. A lista é devolvida <strong>bem formatada, com autores, títulos e revistas</strong>. Metade dos artigos não existe.</span></li>
     <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A interface não deu nenhum sinal de alerta. O estudante não tinha razão para duvidar.</span></li>
+      <span class="point-text">A interface não deu nenhum sinal de alerta. O estudante não tinha razão para duvidar — não tinha a literacia base de como o sistema funciona.</span></li>
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">Sem modelo mental do sistema, não é possível saber <strong>quando verificar</strong> — e quando confiar.</span></li>
   </ul>
+  <div class="slide-refs">Parasuraman &amp; Manzey, 2010 · Mohammadi et al., 2026</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-5"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-6"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 6 — Efeito Mateus ═══ -->
-<div class="slide slide-content" data-index="6" data-title="O efeito Mateus"
-  data-notes="O resultado paradoxal é que a IA generativa, longe de nivelar o desempenho académico, tende a ampliar as diferenças preexistentes. Este fenómeno configura aquilo que, no campo da sociologia da ciência, se designa por efeito Mateus — a tecnologia beneficia desproporcionalmente quem já detém vantagem (Lund et al., 2023). A adopção acrítica de ferramentas de IA pode aprofundar as desigualdades existentes, contrariando a narrativa de democratização (Hwang &amp; Yoon, 2023).">
+<!-- ═══ SLIDE 7 — Efeito Mateus ═══ -->
+<div class="slide slide-content" data-index="7" data-title="O efeito Mateus"
+  data-notes="O resultado paradoxal é que a IA generativa, longe de nivelar o desempenho académico, tende a ampliar as diferenças preexistentes. Este fenómeno configura aquilo que, no campo da sociologia da ciência, se designa por efeito Mateus — a tecnologia beneficia desproporcionalmente quem já detém vantagem (Lund et al., 2023 apud Merton, 1968). A adopção acrítica de ferramentas de IA pode aprofundar as desigualdades existentes, contrariando a narrativa de democratização (Hwang &amp; Yoon, 2023).">
   <div class="slide-header">
-    <span class="slide-number">06</span>
+    <span class="slide-number">07</span>
     <h2 class="slide-title">O <span class="accent">efeito Mateus</span></h2>
   </div>
   <div class="slide-table-wrap">
@@ -652,17 +697,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
         <span class="point-text">A IA não democratiza. <strong>Amplifica quem já sabe curar.</strong></span></li>
     </ul>
   </div>
+  <div class="slide-refs">Lund et al., 2023 (apud Merton, 1968) · Hwang &amp; Yoon, 2023</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-6"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-7"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 7 — Prompt engineering ═══ -->
-<div class="slide slide-content" data-index="7" data-title="O prompt engineering não resolve"
-  data-notes="O prompt engineering é uma tentativa de resolver pelo lado da interface um problema que está no lado do conhecimento. É a mesma lógica da literacia digital centrada nas ferramentas: melhora-se a interacção com o sistema sem se aprofundar a compreensão do sistema nem se investir na construção do conhecimento que o sistema precisa para funcionar bem. (Kardes &amp; Tuna Oran, 2025; Lund et al., 2023)">
+<!-- ═══ SLIDE 8 — Prompt engineering ═══ -->
+<div class="slide slide-content" data-index="8" data-title="O prompt engineering não resolve"
+  data-notes="O prompt engineering é uma tentativa de resolver pelo lado da interface um problema que está no lado do conhecimento. É a mesma lógica da literacia digital centrada nas ferramentas: melhora-se a interacção com o sistema sem se aprofundar a compreensão do sistema nem se investir na construção do conhecimento que o sistema precisa para funcionar bem. (Lund et al., 2023; Ayoola et al., 2023)">
   <div class="slide-header">
-    <span class="slide-number">07</span>
+    <span class="slide-number">08</span>
     <h2 class="slide-title">O <em>prompt engineering</em> <span class="accent">não resolve</span></h2>
   </div>
   <ul class="points">
@@ -675,17 +721,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">O que falta não é uma instrução melhor — é o <strong>conhecimento para a preencher</strong>.</span></li>
   </ul>
+  <div class="slide-refs">Lund et al., 2023 · Ayoola et al., 2023 · Lewis et al., 2020</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-7"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-8"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 8 — O aluno como curador ═══ -->
-<div class="slide slide-content" data-index="8" data-title="O aluno como curador"
+<!-- ═══ SLIDE 9 — O aluno como curador ═══ -->
+<div class="slide slide-content" data-index="9" data-title="O aluno como curador"
   data-notes="A IA opera de forma backward-looking, a partir de padrões estatísticos, enquanto a cognição humana é forward-looking e orientada pela teoria (Felin &amp; Holweg, 2024). É precisamente essa assimetria que torna a curadoria indispensável. O estudante que sabe o que procura, que sabe avaliar o que recebe, e que sabe fornecer o contexto necessário, não está a delegar o pensamento ao modelo — está a usá-lo como instrumento do seu próprio raciocínio. (ACRL, 2016; Lewis et al., 2020)">
   <div class="slide-header">
-    <span class="slide-number">08</span>
+    <span class="slide-number">09</span>
     <h2 class="slide-title">O aluno como <span class="accent">curador</span></h2>
   </div>
   <ul class="points">
@@ -700,17 +747,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">O modelo como <strong>superfície de teste</strong>: revela a qualidade do conhecimento do utilizador — não o substitui.</span></li>
   </ul>
+  <div class="slide-refs">ACRL, 2016 · Lewis et al., 2020 · Felin &amp; Holweg, 2024 · Miao &amp; Shiohira, 2024</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-8"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-9"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 9 — Uso responsável ═══ -->
-<div class="slide slide-content" data-index="9" data-title="O que o uso responsável deixa de fora"
+<!-- ═══ SLIDE 10 — Uso responsável ═══ -->
+<div class="slide slide-content" data-index="10" data-title="O que o uso responsável deixa de fora"
   data-notes="Raramente estas dimensões aparecem nos programas de literacia digital destinados a estudantes e docentes não técnicos, sendo contudo centrais nos frameworks de competências em IA da UNESCO (Miao &amp; Shiohira, 2024; Cukurova &amp; Miao, 2024). O AI Act (Regulamento UE 2024/1689) reforça a necessidade de transparência e gestão de riscos, mas a sua aplicação prática no Ensino Superior depende de uma literacia que o paradigma das ferramentas não desenvolve.">
   <div class="slide-header">
-    <span class="slide-number">09</span>
+    <span class="slide-number">10</span>
     <h2 class="slide-title">O que o uso responsável <span class="accent">deixa de fora</span></h2>
   </div>
   <ul class="points">
@@ -724,17 +772,80 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">A <strong>configuração</strong>: chatbot público vs. modelo com instruções de sistema é uma diferença qualitativa, não de grau.</span></li>
   </ul>
+  <div class="slide-refs">Miao &amp; Shiohira, 2024 · Cukurova &amp; Miao, 2024 · Regulamento UE 2024/1689 (AI Act)</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-9"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-10"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 10 — Formatos de ficheiro ═══ -->
-<div class="slide slide-content" data-index="10" data-title="Formatos de ficheiro"
+<!-- ═══ SLIDE 11 — Soberania de dados ═══ -->
+<div class="slide slide-content" data-index="11" data-title="Soberania de dados"
+  data-notes="A questão da soberania dos dados não é uma preocupação periférica do uso responsável da IA, mas uma consequência directa da forma como as ferramentas são usadas e dos quadros contratuais que as enquadram. Um investigador que partilha dados de campo numa conta gratuita pode estar a comprometer a originalidade do seu trabalho. A variável determinante não é a ferramenta escolhida, mas a forma contratual de acesso a essa ferramenta. (Hasal et al., 2021; Anthropic, 2025; Ollama, 2026)">
+  <div class="slide-header">
+    <span class="slide-number">11</span>
+    <h2 class="slide-title">Soberania de dados — <span class="accent">a decisão contratual</span></h2>
+  </div>
+  <div class="slide-table-wrap">
+    <table class="slide-table">
+      <thead><tr><th>Modalidade</th><th>Dados para treino?</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td class="td-label">ChatGPT (conta gratuita)</td><td class="td-dim">Sim, por omissão</td><td class="td-dim">Trabalho não publicado pode alimentar o modelo (OpenAI, 2025)</td></tr>
+        <tr><td class="td-label">ChatGPT (opt-out activo)</td><td>Não</td><td class="td-dim">Requer activação manual</td></tr>
+        <tr><td class="td-label">Anthropic via API</td><td class="td-good">Não</td><td>Garantia contratual expressa (Anthropic, 2025)</td></tr>
+        <tr><td class="td-label">Modelo local (Ollama)</td><td class="td-good">Não</td><td>Os dados nunca saem do computador (Ollama, 2026)</td></tr>
+      </tbody>
+    </table>
+    <ul class="points" style="margin-top:36px; gap:0">
+      <li class="point"><span class="point-marker"></span>
+        <span class="point-text">A escolha da modalidade de acesso é uma <strong>decisão de literacia</strong> — não uma questão técnica.</span></li>
+    </ul>
+  </div>
+  <div class="slide-refs">Hasal et al., 2021 · OpenAI, 2025 · Anthropic, 2025 · Ollama, 2026</div>
+  <div class="slide-footer">
+    <span class="footer-left">O Paradigma das Ferramentas</span>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-11"></div></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 12 — SMD ═══ -->
+<div class="slide slide-content" data-index="12" data-title="Secure Markdown (SMD)"
+  data-notes="Seguindo os princípios de endereçabilidade por conteúdo (Benet, 2014) e as normas de hash do NIST (2015), o formato SMD utiliza a estrutura YAML (Ben-Kiki et al., 2021) para selar matematicamente o conteúdo Markdown (MacFarlane et al., 2019), garantindo integridade sem dependência de autoridades centrais. A extensão do ficheiro mantém-se .md por razões de retrocompatibilidade — a norma é declarada inteiramente no frontmatter. Para ser efectivo como padrão aberto, exigiria uma norma de normalização do texto e ferramentas de validação de código aberto.">
+  <div class="slide-header">
+    <span class="slide-number">12</span>
+    <h2 class="slide-title">Secure Markdown <span class="accent">(SMD)</span> — proposta conceptual</h2>
+  </div>
+  <ul class="points" style="gap:24px; flex: 0 0 auto;">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O Markdown é ideal para IA — mas <strong>qualquer pessoa pode alterar o ficheiro sem deixar rasto</strong>.</span></li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A norma SMD incorpora um <strong>hash SHA-256</strong> no cabeçalho YAML. A extensão mantém-se <strong>.md</strong> — retrocompatibilidade total.
+        <span class="point-sub">Padrão aberto. Verificável localmente. Sem dependência de plataformas proprietárias.</span></span></li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Se uma única vírgula mudar, o hash calculado na leitura difere do registado — adulteração <strong>imediatamente detectável</strong>.</span></li>
+  </ul>
+  <div class="slide-refs" style="padding-bottom: 16px; margin-bottom: 12px;">NIST, 2015 · Schneier, 1996 · Ben-Kiki et al., 2021 · MacFarlane et al., 2019 · Benet, 2014</div>
+  <div class="slide-code-wrap">
+    <pre class="slide-code"><span class="ck">---</span>
+<span class="ck">smd-version:</span> <span class="cv">1.0</span>
+<span class="ck">hash-algorithm:</span> <span class="cv">SHA-256</span>
+<span class="ck">integrity:</span> <span class="cv">"8f42a1c9d3e..."</span>  <span class="cc"># selo matemático do conteúdo</span>
+<span class="ck">---</span>
+<span class="ch"># Relatório — entrevista n.º 3</span>
+<span class="cc">Conteúdo legível por humanos e por modelos de linguagem.</span></pre>
+  </div>
+  <div class="slide-footer">
+    <span class="footer-left">O Paradigma das Ferramentas</span>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-12"></div></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 13 — Formatos de ficheiro ═══ -->
+
+<div class="slide slide-content" data-index="13" data-title="Formatos de ficheiro"
   data-notes="A escolha do formato dos ficheiros é uma decisão de literacia — não uma questão técnica. Formatos semanticamente estruturados e legíveis por máquinas, como o Markdown, reduzem a fricção no processamento em comparação com formatos fechados como DOCX ou PDF. O CommonMark (MacFarlane et al., 2019) define a sintaxe normalizada do Markdown. O YAML (Ben-Kiki et al., 2021) é o standard do frontmatter onde a norma SMD incorpora o hash de integridade.">
   <div class="slide-header">
-    <span class="slide-number">10</span>
+    <span class="slide-number">13</span>
     <h2 class="slide-title">Formatos de ficheiro — <span class="accent">uma decisão de literacia</span></h2>
   </div>
   <div class="slide-table-wrap">
@@ -756,75 +867,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
       </tbody>
     </table>
   </div>
+  <div class="slide-refs">MacFarlane et al., 2019 · Ben-Kiki et al., 2021</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-10"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-13"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 11 — Soberania de dados ═══ -->
-<div class="slide slide-content" data-index="11" data-title="Soberania de dados"
-  data-notes="A questão da soberania dos dados não é uma preocupação periférica do uso responsável da IA, mas uma consequência directa da forma como as ferramentas são usadas e dos quadros contratuais que as enquadram. Um investigador que partilha dados de campo numa conta gratuita pode estar a comprometer a originalidade do seu trabalho. A variável determinante não é a ferramenta escolhida, mas a forma contratual de acesso a essa ferramenta. (Hasal et al., 2021; Anthropic, 2025; Ollama, 2026)">
-  <div class="slide-header">
-    <span class="slide-number">11</span>
-    <h2 class="slide-title">Soberania de dados — <span class="accent">a decisão contratual</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Modalidade</th><th>Dados para treino?</th></tr></thead>
-      <tbody>
-        <tr><td class="td-label">ChatGPT (conta gratuita)</td><td class="td-dim">Sim, por omissão — trabalho não publicado pode alimentar o modelo</td></tr>
-        <tr><td class="td-label">ChatGPT (opt-out activo)</td><td>Não — requer activação manual</td></tr>
-        <tr><td class="td-label">Anthropic via API</td><td class="td-good">Não — garantia contratual expressa</td></tr>
-        <tr><td class="td-label">Modelo local (Ollama)</td><td class="td-good">Não — os dados nunca saem do computador</td></tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:44px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">A escolha da modalidade de acesso é uma <strong>decisão de literacia</strong> — não uma questão técnica.</span></li>
-    </ul>
-  </div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-11"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 12 — SMD ═══ -->
-<div class="slide slide-content" data-index="12" data-title="Secure Markdown (SMD)"
-  data-notes="Seguindo os princípios de endereçabilidade por conteúdo (Benet, 2014) e as normas de hash do NIST (2015), o formato SMD utiliza a estrutura YAML (Ben-Kiki et al., 2021) para selar matematicamente o conteúdo Markdown (MacFarlane et al., 2019), garantindo integridade sem dependência de autoridades centrais. A extensão do ficheiro mantém-se .md por razões de retrocompatibilidade — a norma é declarada inteiramente no frontmatter. Para ser efectivo como padrão aberto, exigiria uma norma de normalização do texto e ferramentas de validação de código aberto.">
-  <div class="slide-header">
-    <span class="slide-number">12</span>
-    <h2 class="slide-title">Secure Markdown <span class="accent">(SMD)</span></h2>
-  </div>
-  <ul class="points" style="gap:24px; flex: 0 0 auto;">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O Markdown é ideal para IA — mas <strong>qualquer pessoa pode alterar o ficheiro sem deixar rasto</strong>.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A norma SMD incorpora um <strong>hash SHA-256</strong> no cabeçalho YAML. A extensão mantém-se <strong>.md</strong> — retrocompatibilidade total.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Se uma única vírgula mudar, o hash calculado na leitura difere do registado — adulteração <strong>imediatamente detectável</strong>.</span></li>
-  </ul>
-  <div class="slide-code-wrap">
-    <pre class="slide-code"><span class="ck">---</span>
-<span class="ck">smd-version:</span> <span class="cv">1.0</span>
-<span class="ck">hash-algorithm:</span> <span class="cv">SHA-256</span>
-<span class="ck">integrity:</span> <span class="cv">"8f42a1c9d3e..."</span>  <span class="cc"># selo matemático do conteúdo</span>
-<span class="ck">---</span>
-<span class="ch"># Relatório — entrevista n.º 3</span>
-<span class="cc">Conteúdo legível por humanos e por modelos de linguagem.</span></pre>
-  </div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-12"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 13 — O que muda na avaliação ═══ -->
-<div class="slide slide-content" data-index="13" data-title="O que muda na avaliação"
+<!-- ═══ SLIDE 14 — O que muda na avaliação ═══ -->
+<div class="slide slide-content" data-index="14" data-title="O que muda na avaliação"
   data-notes="Com a IA generativa, a estruturação formal — que era indicador de competência — deixa de o ser quando pode ser externalizada para um sistema automatizado. Para o docente, esta reconfiguração implica uma revisão dos critérios de avaliação: em vez de avaliar a forma do texto, passa a avaliar a qualidade das escolhas de curadoria. Esta mudança não exige que os docentes se tornem especialistas em aprendizagem automática — exige que compreendam o princípio de que o modelo produz em função do que recebe. (Lewis et al., 2020; Prince, 2004; Biggs &amp; Tang, 2011)">
   <div class="slide-header">
-    <span class="slide-number">13</span>
+    <span class="slide-number">14</span>
     <h2 class="slide-title">O que muda <span class="accent">na avaliação</span></h2>
   </div>
   <div class="slide-table-wrap">
@@ -842,17 +896,18 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
         <span class="point-text">O docente não precisa de ser especialista em IA. Precisa de compreender: <strong>o modelo produz em função do que recebe</strong>.</span></li>
     </ul>
   </div>
+  <div class="slide-refs">Lewis et al., 2020 · Biggs &amp; Tang, 2011</div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-13"></div></div>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-14"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 14 — Conclusão ═══ -->
-<div class="slide slide-content" data-index="14" data-title="Conclusão"
+<!-- ═══ SLIDE 15 — Conclusão ═══ -->
+<div class="slide slide-content" data-index="15" data-title="Conclusão"
   data-notes="As instituições de Ensino Superior têm um papel particular a desempenhar nesta reorientação, não apenas como utilizadoras de tecnologia, mas como espaços onde o pensamento crítico sobre a tecnologia é cultivado. Isso requer que as iniciativas de literacia digital em IA deixem de ser equivalentes a tutoriais de ferramentas, e passem a incluir uma compreensão funcional dos modelos, das condições de uso, da integridade documental e da soberania dos dados.">
   <div class="slide-header">
-    <span class="slide-number">14</span>
+    <span class="slide-number">15</span>
     <h2 class="slide-title"><span class="accent">Conclusão</span></h2>
   </div>
   <ul class="points">
@@ -861,46 +916,63 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">O paradigma dominante produz utilizadores que <strong>sabem usar sem compreender</strong>.</span></li>
     <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A alternativa: <strong>curadoria de contexto</strong> como prática epistémica · <strong>soberania de dados</strong> como decisão de literacia · <strong>integridade documental</strong> (SMD) como condição académica.</span></li>
+      <span class="point-text">A alternativa: <strong>curadoria de contexto</strong> como prática epistémica · <strong>soberania de dados</strong> como decisão de literacia · <strong>integridade documental</strong> (SMD) como condição académica · <strong>avaliação do processo</strong> em vez do produto formal.</span></li>
     <li class="point"><span class="point-marker"></span>
       <span class="point-text">O estudante que aprende a curar o contexto aprende, no fundo, a <strong>pensar criticamente</strong> — esse é o objectivo que a IA, paradoxalmente, pode ajudar a recuperar.</span></li>
   </ul>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-14"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 15 — REFERÊNCIAS ═══ -->
-<div class="slide slide-content" data-index="15" data-title="Referências Bibliográficas">
-  <div class="slide-header">
-    <span class="slide-number">15</span>
-    <h2 class="slide-title">Referências <span class="accent">Bibliográficas</span></h2>
-  </div>
-  <div class="refs-grid-dense">
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BENET, J. <em>IPFS — Content Addressed, Versioned, P2P File System</em>. Protocol Labs, 2014.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BEN-KIKI, O. et al. <em>YAML Ain't Markup Language, Rev. 1.2.2</em>. 2021.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BIGGS, J. &amp; TANG, C. <em>Teaching for Quality Learning at University</em>. Open University Press, 2011.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">CUKUROVA, M. &amp; MIAO, F. <em>AI Competency Framework for Teachers</em>. UNESCO, 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">DWIVEDI, Y. K. et al. «So what if ChatGPT wrote it?». <em>Int. J. Information Management, 71</em>, 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">FELIN, T. &amp; HOLWEG, M. «Theory is all you need». <em>Strategy Science, 9</em>(4), 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LEWIS, P. et al. «Retrieval-Augmented Generation». <em>NeurIPS 33</em>, 2020.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MACFARLANE, J. et al. <em>CommonMark Spec v0.29</em>. 2019.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MIAO, F. &amp; SHIOHIRA, K. <em>AI Competency Framework for Students</em>. UNESCO, 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">NIST. <em>FIPS PUB 180-4: Secure Hash Standard (SHS)</em>. U.S. Dept. of Commerce, 2015.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">PARASURAMAN, R. &amp; MANZEY, D. «Complacency and bias in automation». <em>Human Factors, 52</em>(3), 2010.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">SCHNEIER, B. <em>Applied Cryptography</em> (2.ª ed.). John Wiley &amp; Sons, 1996.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">TRIMBLE, M. «Artificial intelligence and human intelligence». <em>GRUR International, 72</em>(1), 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">European Union. <em>AI Act — Regulation (EU) 2024/1689</em>. Official Journal of the EU, 2024.</span></div>
-  </div>
   <div class="slide-footer">
     <span class="footer-left">O Paradigma das Ferramentas</span>
     <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-15"></div></div>
   </div>
 </div>
 
-<!-- ═══ SLIDE 16 — OBRIGADO (não conta) ═══ -->
-<div class="slide slide-cover" data-index="16" data-title="Obrigado" data-no-count="true">
+<!-- ═══ SLIDE 16 — REFERÊNCIAS ═══ -->
+<div class="slide slide-content" data-index="16" data-title="Referências Bibliográficas">
+  <div class="slide-header">
+    <span class="slide-number">16</span>
+    <h2 class="slide-title">Referências <span class="accent">Bibliográficas</span></h2>
+  </div>
+  <div class="refs-grid-dense">
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">ACRL. <em>Framework for Information Literacy for Higher Education</em>. ACRL, 2016.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">ANTHROPIC. <em>Privacy policy</em>. Anthropic, 2025.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">AYOOLA, O. O. et al. «ChatGPT impacts on access-efficiency, employment, education and ethics». <em>BizEcons Quarterly, 22</em>, 2023.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BEN-KIKI, O. et al. <em>YAML Ain't Markup Language, Rev. 1.2.2</em>. 2021.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BENET, J. <em>IPFS — Content Addressed, Versioned, P2P File System</em>. Protocol Labs, 2014.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BIGGS, J. &amp; TANG, C. <em>Teaching for Quality Learning at University</em>. Open University Press, 2011.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BUCKINGHAM, D. «Defining digital literacy». <em>Nordic Journal of Digital Literacy, 1</em>(4), 2006.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BUCKINGHAM, D. «Digital Media Literacies». <em>Research in Comparative and International Education, 2</em>(1), 2007.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">CUKUROVA, M. &amp; MIAO, F. <em>AI Competency Framework for Teachers</em>. UNESCO, 2024.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">DWIVEDI, Y. K. et al. «So what if ChatGPT wrote it?». <em>Int. J. Information Management, 71</em>, 2023.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">EUROPEAN COMMISSION. <em>DigComp 2.2: The Digital Competence Framework for Citizens</em>. 2022.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">EUROPEAN UNION. <em>Regulation (EU) 2024/1689 — AI Act</em>. Official Journal of the EU, 2024.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">FELIN, T. &amp; HOLWEG, M. «Theory is all you need». <em>Strategy Science, 9</em>(4), 2024.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">GÜREL, E. &amp; NAZLI, A. <em>Digital Literacy: A Conceptual Framework</em>. 2023.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HASAL, M. et al. «Chatbots: Security, privacy, data protection, and social aspects». <em>Concurrency and Computation, 33</em>(19), 2021.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HOBBS, R. <em>Digital and media literacy: A plan of action</em>. Knight Foundation, 2010.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HWANG, J. &amp; YOON, S. W. «Workplace learning for the disadvantaged». <em>New Directions for Adult and Continuing Education, 177</em>, 2023.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LANKSHEAR, C. &amp; KNOBEL, M. (Eds.). <em>Digital literacies: Concepts, policies and practices</em>. Peter Lang, 2008.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LEWIS, P. et al. «Retrieval-Augmented Generation». <em>NeurIPS 33</em>, 2020.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LUND, B. D. et al. «ChatGPT and a new academic reality». <em>JASIST, 74</em>(5), 2023.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MACFARLANE, J. et al. <em>CommonMark Spec v0.29</em>. 2019.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MIAO, F. &amp; SHIOHIRA, K. <em>AI Competency Framework for Students</em>. UNESCO, 2024.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MOHAMMADI, E. et al. «Is generative AI reshaping academic practices worldwide?». <em>Information Processing &amp; Management, 63</em>(1), 2026.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">NIST. <em>FIPS PUB 180-4: Secure Hash Standard (SHS)</em>. U.S. Dept. of Commerce, 2015.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">OLLAMA. <em>Terms of Service</em>. Ollama, 2026.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">OPENAI. <em>Terms of use</em>. OpenAI, 2025.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">PARASURAMAN, R. &amp; MANZEY, D. «Complacency and bias in human use of automation». <em>Human Factors, 52</em>(3), 2010.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">RUPPRECHTER, N. &amp; DIENLIN, T. «Investigating relationship development with social AI chatbots». <em>OSF Preprints</em>, 2025.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">SCHNEIER, B. <em>Applied Cryptography</em> (2.ª ed.). John Wiley &amp; Sons, 1996.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">SPARROW, B., LIU, J. &amp; WEGNER, D. M. «Google effects on memory». <em>Science, 333</em>(6043), 2011.</span></div>
+    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">TRIMBLE, M. «Artificial intelligence and human intelligence». <em>GRUR International, 72</em>(1), 2023.</span></div>
+  </div>
+  <div class="slide-footer">
+    <span class="footer-left">O Paradigma das Ferramentas</span>
+    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-16"></div></div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 17 — OBRIGADO (não conta) ═══ -->
+<div class="slide slide-cover" data-index="17" data-title="Obrigado" data-no-count="true">
   <div class="cover-inner">
     <div class="cover-eyebrow">IPC 2026 · Escola Superior de Educação de Coimbra</div>
     <div class="cover-divider"></div>
