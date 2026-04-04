@@ -1,0 +1,12 @@
+# Dependências (se usares npm/Marp/Slidev)
+node_modules/
+.npm/
+
+# Pastas de build/exportação (opcional, se quiseres apenas o código fonte)
+dist/
+build/
+
+# Cache de editores e browsers
+.vscode/
+.cache/
+.DS_Store
