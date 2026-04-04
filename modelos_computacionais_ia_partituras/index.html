@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelos Computacionais e IA — Análise de Partituras de Banda</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   MIGUEL ALVES — PRESENTATION BASE TEMPLATE
+   Palette: dark bg · blue-violet accent · grey text
+   Resolution reference: 1920×1080 (16:9, scalable)
+   ═══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #0c0c10;
+  --surface:     #13131a;
+  --border:      #252530;
+  --accent:      #7B9CE0;
+  --accent-dim:  #3D5590;
+  --accent-glow: rgba(123,156,224,0.12);
+  --text:        #e4e2ec;
+  --text-muted:  #8080a0;
+  --text-dim:    #484860;
+  --slide-w:     1920px;
+  --slide-h:     1080px;
+}
+[data-theme="light"] {
+  --bg:          #edeef8;
+  --surface:     #f4f4fc;
+  --border:      #c4c4dc;
+  --accent:      #4A6BC0;
+  --accent-dim:  #8BA4D8;
+  --accent-glow: rgba(74,107,192,0.10);
+  --text:        #12122a;
+  --text-muted:  #484868;
+  --text-dim:    #9090b0;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  overflow: hidden;
+  color: var(--text);
+  transition: background-color 350ms ease, color 350ms ease;
+}
+.slide, .slide-header, .slide-footer, .point-text, .ref-text,
+.cover-title, .cover-subtitle, .cover-eyebrow, .cover-author,
+#counter, #progress-bar, #overview, #notes-panel, #help-panel,
+.help-inner, .notes-inner, .ov-thumb {
+  transition:
+    background-color 350ms ease,
+    color 350ms ease,
+    border-color 350ms ease,
+    opacity 350ms cubic-bezier(0.4,0,0.2,1),
+    transform 350ms cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Viewport Scaler ─────────────────────────────────────── */
+#scaler {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  overflow: hidden;
+}
+#stage {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: var(--slide-w); height: var(--slide-h);
+  transform-origin: center center;
+}
+
+/* ── Slide Base ──────────────────────────────────────────── */
+.slide {
+  position: absolute; inset: 0;
+  padding: 5% 7%;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  opacity: 0; pointer-events: none;
+  transform: translateY(20px);
+  transition:
+    opacity 350ms cubic-bezier(0.4,0,0.2,1),
+    transform 350ms cubic-bezier(0.4,0,0.2,1);
+}
+.slide.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.slide.leaving { opacity: 0; transform: translateY(-20px); pointer-events: none; }
+
+/* ── Cover Slide ─────────────────────────────────────────── */
+.slide-cover {
+  align-items: center; justify-content: center; text-align: center;
+  background: var(--bg); padding: 0;
+}
+.slide-cover .cover-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 40px; max-width: 80%; position: relative; z-index: 2;
+}
+.cover-eyebrow {
+  font-family: 'Arial', sans-serif;
+  font-size: 22px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--accent); font-weight: 400;
+}
+.cover-title {
+  font-size: 72px; font-weight: 400;
+  line-height: 1.15; color: var(--text); letter-spacing: -0.01em;
+}
+.cover-title .accent { color: var(--accent); }
+.cover-subtitle {
+  font-family: 'Arial', sans-serif;
+  font-size: 26px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em;
+}
+.cover-divider { width: 60px; height: 2px; background: var(--accent); }
+.cover-author {
+  font-family: 'Arial', sans-serif;
+  font-size: 22px; color: var(--text-muted); font-style: italic;
+}
+.cover-photo {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 38%;
+  object-fit: cover; object-position: center top;
+  opacity: 0.25;
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 100%);
+}
+
+/* ── Content Slide Header ────────────────────────────────── */
+.slide-header {
+  margin-bottom: 64px; padding-bottom: 28px;
+  border-bottom: 2px solid var(--border);
+  display: flex; align-items: baseline; gap: 28px;
+}
+.slide-number {
+  font-family: 'Arial', sans-serif;
+  font-size: 18px; color: var(--accent); font-weight: 700; letter-spacing: 0.1em; flex-shrink: 0;
+}
+.slide-title {
+  font-size: 52px; font-weight: 400;
+  color: var(--text); line-height: 1.15; letter-spacing: -0.01em;
+}
+.slide-title .accent { color: var(--accent); }
+
+/* ── Points ──────────────────────────────────────────────── */
+.points { list-style: none; display: flex; flex-direction: column; gap: 36px; flex: 1; }
+.point {
+  display: grid; grid-template-columns: 36px 1fr; gap: 28px; align-items: start;
+  opacity: 0; transform: translateX(-12px);
+  transition:
+    opacity 400ms cubic-bezier(0.4,0,0.2,1),
+    transform 400ms cubic-bezier(0.4,0,0.2,1);
+}
+.point.visible { opacity: 1; transform: translateX(0); }
+.point-marker {
+  width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  margin-top: 16px; flex-shrink: 0; justify-self: center;
+}
+.point-text { font-size: 32px; line-height: 1.55; color: var(--text); }
+.point-text strong { color: var(--accent); font-weight: 600; }
+.point-sub {
+  display: block; font-family: 'Arial', sans-serif;
+  font-size: 22px; color: var(--text-muted); margin-top: 8px; line-height: 1.5;
+}
+
+/* ── Two-column layout ───────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; }
+.col-block { display: flex; flex-direction: column; gap: 32px; }
+.col-label {
+  font-family: 'Arial', sans-serif; font-size: 18px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
+  padding-bottom: 12px; border-bottom: 1px solid var(--accent-dim);
+}
+
+/* ── Quote / Highlight Slide ─────────────────────────────── */
+.slide-quote { align-items: center; justify-content: center; text-align: center; }
+.quote-text {
+  font-size: 42px; line-height: 1.6; max-width: 75%;
+  color: var(--text); font-style: italic;
+}
+.quote-source {
+  margin-top: 48px; font-family: 'Arial', sans-serif;
+  font-size: 22px; color: var(--text-muted);
+}
+
+/* ── References Slide ────────────────────────────────────── */
+.refs-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 20px 60px; flex: 1; align-content: start;
+}
+.refs-grid-dense {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px 40px; flex: 1; align-content: start;
+}
+.ref-item {
+  display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: start;
+  opacity: 0; transform: translateX(-8px);
+  transition:
+    opacity 400ms cubic-bezier(0.4,0,0.2,1),
+    transform 400ms cubic-bezier(0.4,0,0.2,1);
+}
+.ref-item.visible { opacity: 1; transform: translateX(0); }
+.ref-dot { width: 5px; height: 5px; background: var(--accent-dim); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+.refs-grid    .ref-text { font-family: 'Arial', sans-serif; font-size: 19px; color: var(--text-muted); line-height: 1.4; }
+.refs-grid-dense .ref-text { font-family: 'Arial', sans-serif; font-size: 15px; color: var(--text-muted); line-height: 1.35; }
+.ref-text em { color: var(--text-dim); font-style: italic; }
+
+/* ── Footer ──────────────────────────────────────────────── */
+.slide-footer {
+  position: absolute; bottom: 40px; left: 7%; right: 7%;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border); padding-top: 16px;
+}
+.footer-left {
+  font-family: 'Arial', sans-serif; font-size: 18px;
+  color: var(--text-dim); letter-spacing: 0.05em;
+}
+.footer-right { text-align: right; line-height: 1.3; }
+.footer-author {
+  font-family: 'Georgia', serif; font-style: italic;
+  font-size: 20px; color: var(--text-muted);
+}
+.footer-date { font-family: 'Arial', sans-serif; font-size: 16px; color: var(--text-dim); }
+
+/* ── Progress Bar ────────────────────────────────────────── */
+#progress-bar {
+  position: fixed; bottom: 0; left: 0; height: 3px;
+  background: var(--accent);
+  transition: width 300ms cubic-bezier(0.4,0,0.2,1);
+  z-index: 100;
+}
+
+/* ── Counter / Slide Menu ────────────────────────────────── */
+#counter {
+  position: fixed; top: 22px; right: 80px;
+  font-family: 'Arial', sans-serif; font-size: 18px;
+  color: var(--text-dim); letter-spacing: 0.1em; z-index: 100;
+  cursor: pointer; user-select: none;
+  padding: 4px 11px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+#counter:hover { border-color: var(--accent-dim); color: var(--text-muted); }
+#slide-menu {
+  position: fixed; top: 56px; right: 70px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; z-index: 160;
+  display: none; min-width: 280px; max-height: 420px; overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+}
+#slide-menu.open { display: block; }
+.menu-item {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 10px 16px; cursor: pointer;
+  font-family: 'Arial', sans-serif; font-size: 14px; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  transition: background 150ms, color 150ms;
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item:hover { background: var(--accent-glow); color: var(--text); }
+.menu-item.menu-active { color: var(--accent); }
+.menu-num {
+  font-size: 11px; color: var(--accent); font-weight: 700;
+  letter-spacing: 0.1em; min-width: 22px; flex-shrink: 0;
+}
+#theme-toggle {
+  position: fixed; top: 22px; right: 36px;
+  width: 30px; height: 30px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: 50%; cursor: pointer; color: var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 150; opacity: 0.35; padding: 0;
+  transition: opacity 250ms, border-color 250ms, color 250ms;
+}
+#theme-toggle:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
+#theme-toggle svg { width: 14px; height: 14px; display: block; pointer-events: none; }
+
+/* ── Overview ────────────────────────────────────────────── */
+#overview {
+  position: fixed; inset: 0; background: rgba(8,8,14,0.96);
+  z-index: 200; display: none; align-items: center; justify-content: center; padding: 60px;
+}
+#overview.open { display: flex; }
+#overview-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 20px; width: 100%; max-width: 1600px; }
+.ov-thumb {
+  aspect-ratio: 16/9; background: var(--surface);
+  border: 2px solid var(--border); border-radius: 4px;
+  cursor: pointer; overflow: hidden; position: relative;
+  transition: border-color 200ms, transform 200ms;
+}
+.ov-thumb:hover { border-color: var(--accent); transform: scale(1.03); }
+.ov-thumb.ov-active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-dim); }
+.ov-thumb.ov-nocount { border-style: dashed; opacity: 0.7; }
+.ov-thumb.ov-nocount .ov-num { color: var(--text-dim); }
+.ov-label {
+  position: absolute; bottom: 6px; left: 8px;
+  font-family: 'Arial', sans-serif; font-size: 10px; color: var(--text-muted);
+  letter-spacing: 0.05em; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ov-num {
+  position: absolute; top: 6px; right: 8px;
+  font-family: 'Arial', sans-serif; font-size: 10px; color: var(--accent); font-weight: 700;
+}
+
+/* ── Speaker Notes ───────────────────────────────────────── */
+#notes-panel {
+  position: fixed; inset: 0; background: rgba(5,5,10,0.93);
+  z-index: 300; display: none; align-items: center; justify-content: center;
+  padding: 80px 120px; backdrop-filter: blur(4px);
+}
+#notes-panel.open { display: flex; }
+.notes-inner { max-width: 1200px; width: 100%; }
+.notes-tag {
+  font-family: 'Arial', sans-serif; font-size: 14px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 32px;
+}
+.notes-content { font-size: 22px; line-height: 1.75; color: var(--text-muted); }
+.notes-content strong { color: var(--text); }
+.notes-close {
+  margin-top: 48px; font-family: 'Arial', sans-serif;
+  font-size: 14px; color: var(--text-dim); letter-spacing: 0.15em;
+}
+
+/* ── Help ────────────────────────────────────────────────── */
+#help-panel {
+  position: fixed; inset: 0; background: rgba(5,5,10,0.94);
+  z-index: 400; display: none; align-items: center; justify-content: center;
+}
+#help-panel.open { display: flex; }
+.help-inner {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 60px 80px; min-width: 480px;
+}
+.help-title {
+  font-family: 'Arial', sans-serif; font-size: 13px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 40px;
+}
+.help-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid var(--border); gap: 60px;
+}
+.help-key {
+  font-family: 'Arial', sans-serif; font-size: 14px; color: var(--accent);
+  background: var(--accent-glow); padding: 4px 12px; border-radius: 4px;
+  border: 1px solid var(--accent-dim); letter-spacing: 0.05em;
+}
+.help-desc { font-family: 'Arial', sans-serif; font-size: 15px; color: var(--text-muted); }
+.help-close {
+  margin-top: 32px; text-align: center; font-family: 'Arial', sans-serif;
+  font-size: 13px; color: var(--text-dim);
+}
+.help-close strong { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div id="scaler">
+<div id="stage">
+
+
+<!-- ══ SLIDE 0 — CAPA ══════════════════════════════════════ -->
+<div class="slide slide-cover active" data-index="0" data-title="Capa">
+  <img class="cover-photo" src="./anexos/foto_apresentacao.png" alt="Fotografia de apresentação — créditos: Pedro Rosa" onerror="this.style.display='none'">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">Doutoramento em Estudos Artísticos — Estudos Musicais · FLUC</div>
+    <div class="cover-divider"></div>
+    <h1 class="cover-title">Modelos Computacionais<br>e <span class="accent">Inteligência Artificial</span></h1>
+    <div class="cover-subtitle">Análise de Partituras de Banda: Aplicações e Limites</div>
+    <div class="cover-divider"></div>
+    <div class="cover-author">Miguel Alves</div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 1 — INTRODUÇÃO (1/10) ════════════════════════ -->
+<div class="slide slide-content" data-index="1" data-title="Introdução"
+     data-notes="Contexto: o repertório das Bandas Filarmónicas é mais amplo do que o funcional — inclui produções de teatro musical como o Auto Pastoris da SF 10 de Agosto (Figueira da Foz), revelando uma prática cultural alargada. A investigação de doutoramento em curso centra-se nesta diversificação artística. A proposta metodológica combina dois planos complementares: no indirecto, a IA gera ferramentas; no directo, a IA interpreta os dados que essas ferramentas produzem.">
+  <div class="slide-header">
+    <span class="slide-number">01</span>
+    <h2 class="slide-title">Introdução</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O avanço dos Modelos Computacionais e da IA abre <strong>novos métodos de análise</strong> de repertórios musicais até agora de difícil acesso à abordagem computacional.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O repertório das <strong>Bandas Filarmónicas</strong> inclui teatro musical — uma prática cultural alargada, além do repertório funcional e de concerto.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Propõe-se a análise de partituras via <strong>music21</strong> e <strong>LLMs</strong>, distinguindo dois planos de utilização: <em>indirecto</em> (suporte técnico) e <em>directo</em> (agente interpretativo).</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A diferenciação vertical evidencia níveis distintos de <strong>proximidade entre a ferramenta e o resultado</strong>, contribuindo para a discussão dos múltiplos papéis da IA na investigação.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-1"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2 — OBJECTIVO (2/10) ═════════════════════════ -->
+<div class="slide slide-content" data-index="2" data-title="Objectivo"
+     data-notes="A tecnologia OMR (Optical Music Recognition) permite digitalizar partituras a partir de imagens — Wan e Zhu (2022) e Ros-Fábregas (2023) estudam o seu potencial. O LLM estende a análise para além do OMR, nomeadamente na interpretação contextual. A contribuição metodológica deste estudo é aplicável a futuras investigações em musicologia computacional sobre repertório vernacular.">
+  <div class="slide-header">
+    <span class="slide-number">02</span>
+    <h2 class="slide-title">Objectivo</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Desenvolver soluções de análise de partituras <strong>eficientes, escaláveis e tendencialmente automatizadas</strong> para o repertório de Banda Filarmónica.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A utilização de LLM oferece uma abordagem <strong>multifacetada</strong> para além das soluções OMR existentes, estendendo a análise musical além dos métodos tradicionais.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Contribuir para futuras investigações que recorram a <strong>metodologias similares</strong> em musicologia computacional aplicada ao repertório vernacular português.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 3 — USO INDIRECTO (3/10) ════════════════════ -->
+<div class="slide slide-content" data-index="3" data-title="Uso Indirecto da IA"
+     data-notes="Nota atómica IA_uso_indireto_geracao_codigo: a IA funciona como assistente de programação, permitindo ao investigador sem formação técnica avançada criar ferramentas personalizadas. Esta abordagem aproxima-se do conceito de vibe coding — desenvolvimento guiado por objetivos em linguagem natural. Para código eficaz, é necessário fornecer contexto pertinente: documentação da biblioteca music21 e técnicas RAG para context tuning (Khan et al., 2024; Anantha et al.). Limitação: a IA está restringida aos dados existentes — potencialidades não documentadas ficam fora do alcance.">
+  <div class="slide-header">
+    <span class="slide-number">03</span>
+    <h2 class="slide-title">Uso <span class="accent">Indirecto</span> da IA</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A IA actua como <strong>assistente de programação</strong>: gera scripts Python com music21 adaptados ao investigador, transpondo a barreira tecnológica sem perder o controlo metodológico.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A eficácia depende do <strong>contexto fornecido</strong> — documentação da biblioteca e técnicas RAG para <em>context tuning</em> melhoram substancialmente a qualidade do código gerado.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O investigador mantém a <strong>autoria metodológica</strong>: a IA ajusta-se às instruções — o controlo do processo e da interpretação permanece humano.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text"><strong>Limitação inerente</strong>: a geração assistida baseia-se em dados existentes — potencialidades não documentadas ou inexploradas da biblioteca ficam fora do seu alcance.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4 — USO DIRECTO (4/10) ══════════════════════ -->
+<div class="slide slide-content" data-index="4" data-title="Uso Directo da IA"
+     data-notes="Nota atómica IA_uso_direto_interpretacao_dados: no plano directo, a IA produz análise predominantemente estatística dos dados extraídos pela music21. O conceito de 'augmented human' (Zhang e Gosline, 2024) descreve bem a relação: a IA amplifica a capacidade do investigador, não a substitui. A engenharia de prompt é determinante — Fuentealba Cid et al. (2024) documentam que a precisão das instruções tem impacto directo na qualidade do output. Risco central: a IA opera por probabilidade, sem compreender o conteúdo musical.">
+  <div class="slide-header">
+    <span class="slide-number">04</span>
+    <h2 class="slide-title">Uso <span class="accent">Directo</span> da IA</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A IA actua como <strong>agente interpretativo</strong> dos dados estruturais extraídos das partituras pelos scripts do plano indirecto.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A análise é predominantemente <strong>estatística</strong> — complementa a interpretação subjectiva do investigador num modelo análogo ao <em>"augmented human"</em>.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A qualidade do output depende criticamente da <strong>engenharia de prompt</strong>: a precisão das instruções determina a relevância e rigor da análise produzida.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 5 — ESTUDO DE CASO (5/10) ═══════════════════ -->
+<div class="slide slide-content" data-index="5" data-title="Estudo de Caso — Auto Pastoris"
+     data-notes="O Auto Pastoris é um teatro musical da Sociedade Filarmónica 10 de Agosto (SF10A), Figueira da Foz. A análise via music21 extraiu: tonalidade, número de compassos, instrumentação completa, contabilização e distribuição de acordes, densidade de notas por instrumento. Esses dados foram entregues ao LLM para análise estatística comparativa entre Phi4 e GPT-4o. Rodriguez et al. (FigGen) exploram modelos de diffusion para visualizações gráficas de partituras.">
+  <div class="slide-header">
+    <span class="slide-number">05</span>
+    <h2 class="slide-title">Estudo de Caso — <span class="accent">Auto Pastoris</span></h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Partitura do <strong>Auto Pastoris</strong> da Sociedade Filarmónica 10 de Agosto (Figueira da Foz): teatro musical transcrito e convertido para MusicXML como objecto de análise.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Os scripts gerados no plano indirecto extraíram dados estruturais completos: <strong>tonalidade, compassos, instrumentação, acordes e densidade de notas</strong> por instrumento.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Os dados foram entregues ao LLM para análise estatística — validando na prática a <strong>complementaridade dos dois planos</strong> num único objecto musical.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Modelos de <strong><em>diffusion</em></strong> foram explorados para resultados gráficos — uma dimensão adicional com potencial para representações visuais da análise musical.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 6 — DIMENSÃO DOS MODELOS (6/10) ════════════ -->
+<div class="slide slide-content" data-index="6" data-title="Dimensão dos Modelos"
+     data-notes="Phi4 tem 14 mil milhões de parâmetros (escala longa europeia; equivale a 14 billion na escala curta anglo-saxónica). GPT-4o tem valor estimado de 200 mil milhões. Hendrycks et al. (MMLU) estabeleceram o benchmark de referência para medir capacidades de modelos de linguagem em múltiplas tarefas. Belcak et al. argumentam que Small Language Models são o futuro da IA agêntica, precisamente por este resultado — a diferença de parâmetros é desproporcional à diferença de qualidade.">
+  <div class="slide-header">
+    <span class="slide-number">06</span>
+    <h2 class="slide-title">Dimensão dos <span class="accent">Modelos</span></h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Comparação entre <strong>Phi4-14B</strong> (modelo local, Microsoft) e <strong>GPT-4o ~200B</strong> (nuvem, OpenAI): diferenças observadas no output foram mínimas, apesar da disparidade de escala.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A quantidade de parâmetros revela-se <strong>desproporcional à qualidade</strong> do output — interpelando a narrativa dominante que associa maior dimensão a maior capacidade.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Este resultado é válido nos <strong>dois planos</strong> (indirecto e directo) e abre a possibilidade de modelos locais de pequena dimensão como alternativa viável na investigação académica.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-6"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 7 — IMPLICAÇÕES ÉTICAS E TÉCNICAS (7/10) ════ -->
+<div class="slide slide-content" data-index="7" data-title="Implicações — AI Act"
+     data-notes="AI Act (Regulamento UE 2024/1689): o artigo 50.º impõe obrigações de transparência — qualquer sistema de IA que interaja com humanos deve declarar a sua natureza. Wernick e Meding (2024) analisam especificamente as implicações do AI Act para a investigação académica. Sobre model collapse: Shumailov et al. (2024) demonstraram que modelos treinados recursivamente em conteúdo sintético degradam progressivamente — o que torna o fine-tuning especializado com conteúdo humano ainda mais urgente. LoRA (Low-Rank Adaptation) e outras técnicas PEFT permitem fine-tuning eficiente sem requer toda a capacidade computacional.">
+  <div class="slide-header">
+    <span class="slide-number">07</span>
+    <h2 class="slide-title">Implicações — <span class="accent">AI Act</span> e Fine-Tuning</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O <strong>AI Act</strong> (UE 2024/1689) impõe obrigações éticas — transparência no uso de dados sensíveis e salvaguarda da originalidade — e técnicas — limitações dos modelos probabilísticos.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Os LLMs esgotarão o conteúdo humano disponível para treino: modelos treinados em <strong>conteúdo sintético degradam</strong> progressivamente (<em>model collapse</em>), tornando o conhecimento orgânico insubstituível.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">O <strong>fine-tuning</strong> de modelos especializados de pequena e média dimensão — via técnicas como LoRA — é o caminho mais sustentável e epistemicamente responsável para a investigação académica.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-7"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 8 — LIMITAÇÕES (8/10) ══════════════════════ -->
+<div class="slide slide-content" data-index="8" data-title="Limitações"
+     data-notes="Sobre alucinação: Kalai et al. documentam por que os modelos de linguagem alucinam — é uma consequência da sua natureza probabilística. Lund et al. (2023) discutem os riscos éticos na escrita científica com LLM. O risco de delegação excessiva é subtil: o investigador habituado a aceitar outputs sem reflexão crítica pode gradualmente perder a capacidade de interpretação autónoma — precisamente o que distingue o investigador da ferramenta.">
+  <div class="slide-header">
+    <span class="slide-number">08</span>
+    <h2 class="slide-title">Limitações</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">No plano indirecto, o <strong>probabilismo</strong> restringe a inovação: a geração de código está confinada ao que já foi documentado, excluindo potencialidades inexploradas da biblioteca.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">No plano directo, a ausência de <strong>raciocínio genuíno</strong> é a limitação crítica: a IA opera por probabilidade, sem compreender o conteúdo musical que analisa — com riscos para a escrita científica.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">Risco de <strong>delegação excessiva</strong>: o uso recorrente pode levar o investigador a ceder inconscientemente tarefas que ainda requerem interpretação e juízo humanos.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-8"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 9 — CONCLUSÃO (9/10) ════════════════════════ -->
+<div class="slide slide-content" data-index="9" data-title="Conclusão"
+     data-notes="A distinção fundamental: os LLMs foram desenvolvidos sob princípios comerciais para simular inteligência humana, não para produzir conhecimento genuíno. Esta distinção epistemológica é o quadro interpretativo correcto para avaliar o papel da IA na investigação musical. A metáfora da 'extensão do investigador' é precisa: uma ferramenta estende a capacidade humana mas não a substitui — da mesma forma que uma partitura não substitui o músico.">
+  <div class="slide-header">
+    <span class="slide-number">09</span>
+    <h2 class="slide-title">Conclusão</h2>
+  </div>
+  <ul class="points">
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">LLM e SLM são ferramentas valiosas para <strong>automatizar, optimizar e complementar</strong> a investigação musical — mas não substituem o conhecimento disciplinar do investigador.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">A tecnologia LLM emergiu sob <strong>princípios comerciais</strong> para simular inteligência humana — sem necessariamente produzir conhecimento genuíno. Esta distinção é epistemicamente fundamental.</span>
+    </li>
+    <li class="point"><span class="point-marker"></span>
+      <span class="point-text">As ferramentas devem ser vistas como <strong>extensão do investigador</strong>: preservar a originalidade, a profundidade do pensamento crítico e a autoria científica na música.</span>
+    </li>
+  </ul>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-9"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 10 — REFERÊNCIAS BIBLIOGRÁFICAS (10/10) ══════ -->
+<div class="slide slide-content" data-index="10" data-title="Referências">
+  <div class="slide-header">
+    <span class="slide-number">10</span>
+    <h2 class="slide-title">Referências <span class="accent">Bibliográficas</span></h2>
+  </div>
+  <div class="refs-grid-dense">
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">CUTHBERT, M. S. <em>music21: A Toolkit for Computer-Aided Musicology</em>. MIT, 2010–2025.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">SOUSA, J. «As Bandas de Música do distrito de Lisboa entre a Regeneração e a República (1850–1910)».</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">WAN, X.; ZHU, J. «A Sequence-to-Sequence Framework Based on Transformer With Masked Language Model for Optical Music Recognition». <em>Frontiers of Computer Science</em> 19, 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">ROS-FÁBREGAS, E. «Musicología en la era de la inteligencia artificial (IA)». <em>Revista de Musicología</em>, 2023.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">KHAN, A. et al. «Developing Retrieval Augmented Generation (RAG) based LLM Systems from PDFs». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">ANANTHA, R. et al. «Context Tuning for Retrieval Augmented Generation». 2023.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">KALAI, A. et al. «Why Language Models Hallucinate». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">ZHANG, J.; GOSLINE, R. «Human Favoritism, Not AI Aversion». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">FUENTEALBA CID, D. et al. «The Art of Prompts' Formulation». <em>Salud, Ciencia y Tecnología</em> 4, 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">RODRIGUEZ, A. et al. «FigGen: Text to Scientific Figure Generation». 2023.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">HENDRYCKS, D. et al. «Measuring Massive Multitask Language Understanding». <em>ICLR</em>, 2021.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">BELCAK, P. et al. «Small Language Models are the Future of Agentic AI». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">WERNICK, A.; MEDING, K. «Beware! The AI Act Can Also Apply to Your AI Research Practices». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">EUROPEAN UNION. <em>Regulation (EU) 2024/1689 — Artificial Intelligence Act</em>. Parlamento Europeu, 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">LUND, B. D. et al. «ChatGPT and a New Academic Reality». <em>J. Association for Information Science and Technology</em>, 2023.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">NAFAR, A. et al. «Extracting Probabilistic Knowledge from Large Language Models for Bayesian Network Parameterization». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">SHUMAILOV, I. et al. «AI Models Collapse When Trained on Recursively Generated Data». <em>Nature</em>, 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">MAO, Y. et al. «A Survey on LoRA of Large Language Models». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">SHOJAEE, M. et al. «The Illusion of Thinking». 2025.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">FELIN, T.; HOLWEG, M. «Theory Is All You Need». 2024.</span>
+    </div>
+    <div class="ref-item"><span class="ref-dot"></span>
+      <span class="ref-text">ABACHA, A. et al. «MEDEC: A Benchmark for Medical Error Detection and Correction». 2024.</span>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span class="footer-left">Modelos Computacionais e IA — Análise de Partituras de Banda</span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-10"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 11 — AGRADECIMENTO (fora da contagem) ════════ -->
+<div class="slide slide-cover" data-index="11" data-title="Obrigado" data-no-count="true">
+  <img class="cover-photo" src="./anexos/foto_apresentacao.png" alt="" onerror="this.style.display='none'">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">Doutoramento em Estudos Artísticos — Estudos Musicais · FLUC</div>
+    <div class="cover-divider"></div>
+    <h1 class="cover-title">Obrigado</h1>
+    <div class="cover-subtitle">Análise de Partituras de Banda: Aplicações e Limites</div>
+    <div class="cover-divider"></div>
+    <div class="cover-author">Miguel Alves</div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+</div><!-- /scaler -->
+
+<div id="progress-bar"></div>
+<div id="counter">1 / N</div>
+<div id="slide-menu"></div>
+
+<button id="theme-toggle" title="Alternar modo claro/escuro" aria-label="Alternar tema">
+  <svg id="theme-icon-sun" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="8" cy="8" r="3" fill="currentColor"/>
+    <line x1="8" y1="1" x2="8" y2="3"   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="1" y1="8" x2="3" y2="8"   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="3.05" y1="3.05" x2="4.46" y2="4.46" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="11.54" y1="11.54" x2="12.95" y2="12.95" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="3.05" y1="12.95" x2="4.46" y2="11.54" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="11.54" y1="4.46" x2="12.95" y2="3.05" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <svg id="theme-icon-moon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <path d="M13.5 10.5A5.5 5.5 0 0 1 5.5 2.5a6.5 6.5 0 1 0 8 8z" fill="currentColor"/>
+  </svg>
+</button>
+
+<div id="overview"><div id="overview-grid"></div></div>
+
+<div id="notes-panel">
+  <div class="notes-inner">
+    <div class="notes-tag">Notas do Apresentador</div>
+    <div class="notes-content" id="notes-content"></div>
+    <div class="notes-close">Pressione <strong>N</strong> ou clique para fechar</div>
+  </div>
+</div>
+
+<div id="help-panel">
+  <div class="help-inner">
+    <div class="help-title">Atalhos de Teclado</div>
+    <div class="help-row"><span class="help-key">← →</span><span class="help-desc">Slide anterior / seguinte</span></div>
+    <div class="help-row"><span class="help-key">Espaço</span><span class="help-desc">Avançar slide</span></div>
+    <div class="help-row"><span class="help-key">N</span><span class="help-desc">Notas do apresentador</span></div>
+    <div class="help-row"><span class="help-key">O</span><span class="help-desc">Vista geral (overview)</span></div>
+    <div class="help-row"><span class="help-key">F</span><span class="help-desc">Ecrã inteiro</span></div>
+    <div class="help-row"><span class="help-key">?</span><span class="help-desc">Mostrar / esconder atalhos</span></div>
+    <div class="help-close">Pressione <strong>?</strong> para fechar</div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   PRESENTATION ENGINE — não modificar
+   ═══════════════════════════════════════════════════════════ */
+const slides   = Array.from(document.querySelectorAll('.slide'));
+const total    = slides.length;
+/* Slides com data-no-count="true" não aparecem no contador nem na barra de progresso */
+const counted  = slides.filter(s => s.dataset.noCount !== 'true');
+const countTotal = counted.length;
+let   current  = 0;
+let   animating = false;
+const visited  = new Set();
+
+/* ── Background Lines ────────────────────────────────────── */
+const slideLines = slides.map(() => {
+  const n = 3 + Math.floor(Math.random() * 4);
+  const lines = [];
+  for (let i = 0; i < n; i++) {
+    const angle = (62 + Math.random() * 24) * Math.PI / 180;
+    const cx    = Math.random() * 1920;
+    const half  = 540 / Math.tan(angle);
+    const op    = +(0.028 + Math.random() * 0.024).toFixed(3);
+    lines.push({ x1: cx - half, x2: cx + half, op });
+  }
+  return lines;
+});
+
+function applyBgLines(dark) {
+  const rgb = dark ? '130,100,220' : '90,60,190';
+  slides.forEach((slide, i) => {
+    const segs = slideLines[i].map(l =>
+      `<line x1="${l.x1.toFixed(0)}" y1="0" x2="${l.x2.toFixed(0)}" y2="1080" ` +
+      `stroke="rgba(${rgb},${l.op})" stroke-width="1.5"/>`
+    ).join('');
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080">${segs}</svg>`;
+    slide.style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  });
+}
+
+/* Date footer */
+(function() {
+  const d = new Date();
+  const s = [d.getDate(), d.getMonth()+1, d.getFullYear()]
+    .map((n,i) => i<2 ? String(n).padStart(2,'0') : n).join('-');
+  slides.forEach((_,i) => { const el = document.getElementById(`date-${i}`); if(el) el.textContent = s; });
+})();
+
+/* Scaler */
+const stage = document.getElementById('stage');
+function rescale() {
+  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+}
+rescale();
+window.addEventListener('resize', rescale);
+
+/* UI — barra e contador excluem slides data-no-count */
+function updateUI() {
+  const noCount = slides[current].dataset.noCount === 'true';
+  if (noCount) {
+    /* No slide de agradecimento: manter barra a 100%, ocultar contador */
+    document.getElementById('progress-bar').style.width = '100%';
+    document.getElementById('counter').style.opacity = '0';
+  } else {
+    const pos = counted.indexOf(slides[current]) + 1;
+    document.getElementById('progress-bar').style.width = (pos / countTotal * 100) + '%';
+    document.getElementById('counter').style.opacity = '1';
+    document.getElementById('counter').textContent = `${pos} / ${countTotal}`;
+  }
+}
+
+/* Bullets */
+function animateBullets(slide) {
+  if (visited.has(slide)) return;
+  visited.add(slide);
+  slide.querySelectorAll('.point, .ref-item')
+    .forEach((el,i) => setTimeout(() => el.classList.add('visible'), 120+i*80));
+}
+
+/* Navigate */
+function goTo(idx) {
+  if (idx<0 || idx>=total || idx===current || animating) return;
+  closeMenu();
+  animating = true;
+  const leaving = slides[current], entering = slides[idx];
+  leaving.classList.add('leaving');
+  leaving.classList.remove('active');
+  entering.style.transform = idx>current ? 'translateY(20px)' : 'translateY(-20px)';
+  entering.classList.add('active');
+  setTimeout(() => { leaving.classList.remove('leaving'); animating=false; animateBullets(entering); }, 370);
+  current = idx;
+  updateUI();
+  updateOvActive();
+}
+const next = () => goTo(current+1);
+const prev = () => goTo(current-1);
+
+/* Keyboard */
+document.addEventListener('keydown', e => {
+  const ov   = document.getElementById('overview');
+  const np   = document.getElementById('notes-panel');
+  const hp   = document.getElementById('help-panel');
+  if (ov.classList.contains('open'))  { if(['o','O','Escape'].includes(e.key)) toggleOv(); return; }
+  if (np.classList.contains('open'))  { if(['n','N','Escape'].includes(e.key)) toggleNotes(); return; }
+  if (hp.classList.contains('open'))  { if(['?','Escape'].includes(e.key))    toggleHelp(); return; }
+  switch(e.key) {
+    case 'ArrowRight': case 'ArrowDown':  next(); break;
+    case 'ArrowLeft':  case 'ArrowUp':    prev(); break;
+    case ' ': e.preventDefault(); next(); break;
+    case 'f': case 'F': toggleFS(); break;
+    case 'n': case 'N': toggleNotes(); break;
+    case 'o': case 'O': toggleOv(); break;
+    case '?': toggleHelp(); break;
+  }
+});
+
+/* Click zones */
+document.getElementById('scaler').addEventListener('click', e => {
+  if (['overview','notes-panel','help-panel'].some(id => document.getElementById(id).classList.contains('open'))) return;
+  const x = e.clientX / window.innerWidth;
+  if (x > 0.65) next(); else if (x < 0.35) prev();
+});
+
+/* Notes */
+function toggleNotes() {
+  const p = document.getElementById('notes-panel');
+  const open = p.classList.toggle('open');
+  if (open) {
+    document.getElementById('notes-content').innerHTML =
+      (slides[current].dataset.notes || 'Sem notas para este slide.').replace(/\n/g,'<br>');
+  }
+}
+document.getElementById('notes-panel').addEventListener('click', toggleNotes);
+
+/* Overview */
+function buildOv() {
+  const g = document.getElementById('overview-grid');
+  g.innerHTML = '';
+  slides.forEach((s,i) => {
+    const noCount = s.dataset.noCount === 'true';
+    const pos = noCount ? '★' : (counted.indexOf(s)+1);
+    const t = document.createElement('div');
+    t.className = 'ov-thumb'+(i===current?' ov-active':'')+(noCount?' ov-nocount':'');
+    t.innerHTML = `<div class="ov-num">${pos}</div><div class="ov-label">${s.dataset.title||''}</div>`;
+    t.addEventListener('click', () => { toggleOv(); goTo(i); });
+    g.appendChild(t);
+  });
+}
+function updateOvActive() { document.querySelectorAll('.ov-thumb').forEach((t,i) => t.classList.toggle('ov-active',i===current)); }
+function toggleOv() { const ov=document.getElementById('overview'); if(ov.classList.toggle('open')) buildOv(); }
+
+/* Fullscreen */
+function toggleFS() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen();
+}
+
+/* Help */
+function toggleHelp() { document.getElementById('help-panel').classList.toggle('open'); }
+
+/* Slide Menu */
+function buildMenu() {
+  const m = document.getElementById('slide-menu');
+  m.innerHTML = '';
+  counted.forEach(s => {
+    const pos = counted.indexOf(s) + 1;
+    const item = document.createElement('div');
+    item.className = 'menu-item' + (s === slides[current] ? ' menu-active' : '');
+    item.innerHTML = `<span class="menu-num">${String(pos).padStart(2,'0')}</span>${s.dataset.title || ''}`;
+    item.addEventListener('click', e => { e.stopPropagation(); closeMenu(); goTo(slides.indexOf(s)); });
+    m.appendChild(item);
+  });
+}
+function openMenu()  { buildMenu(); document.getElementById('slide-menu').classList.add('open'); }
+function closeMenu() { document.getElementById('slide-menu').classList.remove('open'); }
+function toggleMenu() { document.getElementById('slide-menu').classList.contains('open') ? closeMenu() : openMenu(); }
+
+document.getElementById('counter').addEventListener('click', e => { e.stopPropagation(); toggleMenu(); });
+document.addEventListener('click', () => closeMenu());
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); }, true);
+
+/* Theme toggle */
+let darkMode = true;
+const themeBtn  = document.getElementById('theme-toggle');
+const iconSun   = document.getElementById('theme-icon-sun');
+const iconMoon  = document.getElementById('theme-icon-moon');
+themeBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  darkMode = !darkMode;
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  iconSun.style.display  = darkMode ? 'block' : 'none';
+  iconMoon.style.display = darkMode ? 'none'  : 'block';
+  applyBgLines(darkMode);
+});
+
+/* Init */
+document.documentElement.setAttribute('data-theme', 'dark');
+updateUI();
+animateBullets(slides[0]);
+applyBgLines(darkMode);
+</script>
+</body>
+</html>
