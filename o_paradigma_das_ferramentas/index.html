@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O Paradigma das Ferramentas — Literacia Digital em IA no Ensino Superior</title>
+<title>O Paradigma das Ferramentas — Literacia Digital em IA</title>
 <style>
 /* ═══════════════════════════════════════════════════════════
    MIGUEL ALVES — PRESENTATION BASE TEMPLATE
@@ -25,6 +25,17 @@
   --text-dim:    #484860;
   --slide-w:     1920px;
   --slide-h:     1080px;
+  --font-scale:  1;
+  --base-size:   16px;
+}
+@media (max-width: 1366px), (max-height: 768px) {
+  :root {
+    --slide-w: 1280px;
+    --slide-h: 720px;
+  }
+}
+html {
+  font-size: var(--base-size);
 }
 
 /* ── Light mode overrides ────────────────────────────────── */
@@ -79,8 +90,10 @@ html, body {
 /* ── Slide Base ──────────────────────────────────────────── */
 .slide {
   position: absolute; inset: 0;
-  padding: 5% 7%;
+  padding: 80px 96px 120px;
   display: flex; flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
   background: var(--surface);
   opacity: 0; pointer-events: none;
   transform: translateY(20px);
@@ -102,22 +115,22 @@ html, body {
 }
 .cover-eyebrow {
   font-family: 'Arial', sans-serif;
-  font-size: 22px; letter-spacing: 0.25em; text-transform: uppercase;
+  font-size: calc(1.375rem * var(--font-scale)); letter-spacing: 0.25em; text-transform: uppercase;
   color: var(--accent); font-weight: 400;
 }
 .cover-title {
-  font-size: 72px; font-weight: 400;
+  font-size: calc(4.5rem * var(--font-scale)); font-weight: 400;
   line-height: 1.15; color: var(--text); letter-spacing: -0.01em;
 }
 .cover-title .accent { color: var(--accent); }
 .cover-subtitle {
   font-family: 'Arial', sans-serif;
-  font-size: 26px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em;
+  font-size: calc(1.625rem * var(--font-scale)); color: var(--text-muted); font-weight: 300; letter-spacing: 0.05em;
 }
 .cover-divider { width: 60px; height: 2px; background: var(--accent); }
 .cover-author {
   font-family: 'Arial', sans-serif;
-  font-size: 22px; color: var(--text-muted); font-style: italic;
+  font-size: calc(1.375rem * var(--font-scale)); color: var(--text-muted); font-style: italic;
 }
 .cover-photo {
   position: absolute; right: 0; top: 0; bottom: 0; width: 38%;
@@ -135,18 +148,18 @@ html, body {
 }
 .slide-number {
   font-family: 'Arial', sans-serif;
-  font-size: 18px; color: var(--accent); font-weight: 700; letter-spacing: 0.1em; flex-shrink: 0;
+  font-size: calc(1.125rem * var(--font-scale)); color: var(--accent); font-weight: 700; letter-spacing: 0.1em; flex-shrink: 0;
 }
 .slide-title {
-  font-size: 52px; font-weight: 400;
+  font-size: calc(3.25rem * var(--font-scale)); font-weight: 400;
   color: var(--text); line-height: 1.15; letter-spacing: -0.01em;
 }
 .slide-title .accent { color: var(--accent); }
 
 /* ── Points ──────────────────────────────────────────────── */
-.points { list-style: none; display: flex; flex-direction: column; gap: 36px; flex: 1; }
+.points { list-style: none; display: flex; flex-direction: column; gap: 24px; flex: 1; justify-content: center; }
 .point {
-  display: grid; grid-template-columns: 36px 1fr; gap: 28px; align-items: start;
+  display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; width: 100%;
   opacity: 0; transform: translateX(-12px);
   transition:
     opacity 400ms cubic-bezier(0.4,0,0.2,1),
@@ -154,21 +167,39 @@ html, body {
 }
 .point.visible { opacity: 1; transform: translateX(0); }
 .point-marker {
-  width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
-  margin-top: 16px; flex-shrink: 0; justify-self: center;
+  width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
+  margin-top: 12px; flex-shrink: 0;
 }
-.point-text { font-size: 32px; line-height: 1.55; color: var(--text); }
+.point-content { display: flex; flex-direction: column; gap: 4px; }
+.point-text { font-size: calc(1.625rem * var(--font-scale)); line-height: 1.45; color: var(--text); }
 .point-text strong { color: var(--accent); font-weight: 600; }
+.point-text .cite { font-family: 'Arial', sans-serif; font-size: 0.72em; color: var(--text-dim); }
 .point-sub {
-  display: block; font-family: 'Arial', sans-serif;
-  font-size: 22px; color: var(--text-muted); margin-top: 8px; line-height: 1.5;
+  font-family: 'Arial', sans-serif;
+  font-size: calc(1.625rem * var(--font-scale)); color: var(--text-muted); line-height: 1.45;
+  padding-left: 26px;
+  position: relative;
+}
+.point-sub::before {
+  content: '–';
+  position: absolute;
+  left: 8px;
+  color: var(--accent-dim);
+}
+.point-subs {
+  display: flex; flex-direction: column; gap: 4px;
+  margin-top: 4px;
 }
 
 /* ── Two-column layout ───────────────────────────────────── */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; }
+.two-col-img { display: grid; grid-template-columns: 3fr 1fr; gap: 60px; flex: 1; }
+.two-col-img .col-img-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.two-col-img .col-img { width: 100%; max-height: 500px; object-fit: contain; border-radius: 4px; border: 1px solid var(--border); }
+.two-col-img .col-img-label { font-family: 'Arial', sans-serif; font-size: calc(0.75rem * var(--font-scale)); color: var(--text-dim); text-align: center; margin-top: 8px; }
 .col-block { display: flex; flex-direction: column; gap: 32px; }
 .col-label {
-  font-family: 'Arial', sans-serif; font-size: 18px;
+  font-family: 'Arial', sans-serif;   font-size: calc(1.125rem * var(--font-scale));
   letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent);
   padding-bottom: 12px; border-bottom: 1px solid var(--accent-dim);
 }
@@ -176,12 +207,12 @@ html, body {
 /* ── Quote / Highlight Slide ─────────────────────────────── */
 .slide-quote { align-items: center; justify-content: center; text-align: center; }
 .quote-text {
-  font-size: 42px; line-height: 1.6; max-width: 75%;
+  font-size: calc(2.625rem * var(--font-scale)); line-height: 1.6; max-width: 75%;
   color: var(--text); font-style: italic;
 }
 .quote-source {
-  margin-top: 48px; font-family: 'Arial', sans-serif;
-  font-size: 22px; color: var(--text-muted);
+  margin-top: calc(3rem * var(--font-scale)); font-family: 'Arial', sans-serif;
+  font-size: calc(1.375rem * var(--font-scale)); color: var(--text-muted);
 }
 
 /* ── References Slide ────────────────────────────────────── */
@@ -191,8 +222,13 @@ html, body {
 }
 /* Dense variant: 3 colunas, fonte mais pequena — para muitas referências */
 .refs-grid-dense {
+   display: grid; grid-template-columns: 1fr 1fr 1fr;
+   gap: 14px 40px; flex: 1; align-content: start;
+}
+/* Compact variant: 3 colunas, fonte mínima — para 31-50 referências */
+.refs-grid-compact {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px 40px; flex: 1; align-content: start;
+  gap: 8px 28px; flex: 1; align-content: start;
 }
 .ref-item {
   display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: start;
@@ -203,26 +239,28 @@ html, body {
 }
 .ref-item.visible { opacity: 1; transform: translateX(0); }
 .ref-dot { width: 5px; height: 5px; background: var(--accent-dim); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
-.refs-grid    .ref-text { font-family: 'Arial', sans-serif; font-size: 19px; color: var(--text-muted); line-height: 1.4; }
-.refs-grid-dense .ref-text { font-family: 'Arial', sans-serif; font-size: 15px; color: var(--text-muted); line-height: 1.35; }
+.refs-grid    .ref-text { font-family: 'Arial', sans-serif; font-size: calc(1.1875rem * var(--font-scale)); color: var(--text-muted); line-height: 1.4; }
+.refs-grid-dense .ref-text { font-family: 'Arial', sans-serif; font-size: calc(0.9375rem * var(--font-scale)); color: var(--text-muted); line-height: 1.35; }
+.refs-grid-compact .ref-text { font-family: 'Arial', sans-serif; font-size: calc(0.75rem * var(--font-scale)); color: var(--text-muted); line-height: 1.3; }
 .ref-text em { color: var(--text-dim); font-style: italic; }
 
 /* ── Footer ──────────────────────────────────────────────── */
 .slide-footer {
-  position: absolute; bottom: 40px; left: 7%; right: 7%;
+  position: absolute; bottom: 40px; left: 96px; right: 96px;
   display: flex; align-items: center; justify-content: space-between;
   border-top: 1px solid var(--border); padding-top: 16px;
+  margin-top: auto;
 }
 .footer-left {
-  font-family: 'Arial', sans-serif; font-size: 18px;
+  font-family: 'Arial', sans-serif; font-size: calc(1.125rem * var(--font-scale));
   color: var(--text-dim); letter-spacing: 0.05em;
 }
 .footer-right { text-align: right; line-height: 1.3; }
 .footer-author {
   font-family: 'Georgia', serif; font-style: italic;
-  font-size: 20px; color: var(--text-muted);
+  font-size: calc(1.25rem * var(--font-scale)); color: var(--text-muted);
 }
-.footer-date { font-family: 'Arial', sans-serif; font-size: 16px; color: var(--text-dim); }
+.footer-date { font-family: 'Arial', sans-serif; font-size: calc(1rem * var(--font-scale)); color: var(--text-dim); }
 
 /* ── Progress Bar ────────────────────────────────────────── */
 #progress-bar {
@@ -230,6 +268,16 @@ html, body {
   background: var(--accent);
   transition: width 300ms cubic-bezier(0.4,0,0.2,1);
   z-index: 100;
+}
+
+#zoom-indicator {
+  position: fixed; bottom: 8px; left: 12px;
+  font-family: 'Arial', sans-serif; font-size: 12px;
+  color: var(--text-dim); z-index: 100;
+  opacity: 0.7; transition: opacity 200ms ease;
+}
+#zoom-indicator.visible {
+  opacity: 1;
 }
 
 /* ── Counter / Slide Menu ────────────────────────────────── */
@@ -284,6 +332,30 @@ html, body {
 }
 #theme-toggle:hover { opacity: 1; border-color: var(--accent); color: var(--accent); }
 #theme-toggle svg { width: 14px; height: 14px; display: block; pointer-events: none; }
+
+#zoom-controls {
+  position: fixed; bottom: 20px; right: 20px;
+  display: flex; gap: 8px; z-index: 150;
+}
+#zoom-controls button {
+  width: 32px; height: 32px;
+  background: rgba(12, 12, 16, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 200ms, border-color 200ms, color 200ms;
+}
+#zoom-controls button:hover {
+  background: rgba(123, 156, 224, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#zoom-controls svg {
+  width: 14px; height: 14px; display: block;
+  pointer-events: none;
+}
 
 /* ── Overview ────────────────────────────────────────────── */
 #overview {
@@ -361,54 +433,66 @@ html, body {
 }
 .help-close strong { color: var(--accent); }
 
-/* ── Slide Table ────────────────────────────────────────── */
-.slide-table-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.slide-table { width: 100%; border-collapse: collapse; }
-.slide-table th {
-  font-family: 'Arial', sans-serif; font-size: 19px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--accent); padding: 18px 28px;
-  border-bottom: 2px solid var(--accent-dim); text-align: left; font-weight: 600;
+/* ── Chart ───────────────────────────────────────────────── */
+.chart-wrap {
+  flex: 1; position: relative; min-height: 0; width: 100%;
+  display: flex; align-items: center; justify-content: center;
 }
-.slide-table td {
-  font-family: 'Arial', sans-serif; font-size: 27px; color: var(--text);
-  padding: 24px 28px; border-bottom: 1px solid var(--border);
-  line-height: 1.45; vertical-align: top;
-}
-.slide-table td.td-label { color: var(--accent); font-weight: 600; white-space: nowrap; }
-.slide-table td.td-good  { color: #88c888; }
-.slide-table td.td-dim   { color: var(--text-muted); }
-.slide-table tr:last-child td { border-bottom: none; }
+.chart-wrap canvas { max-height: 560px; width: 100% !important; }
 
-/* ── Code Block ─────────────────────────────────────────── */
-.slide-code-wrap { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.slide-code {
-  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-  padding: 36px 44px; font-family: 'Courier New', monospace; font-size: 24px;
-  color: #a8e6a8; line-height: 1.65; white-space: pre;
+/* ── Chart + Content side-by-side ─────────────────────────── */
+.chart-content-layout {
+  display: grid; grid-template-columns: 1fr 4fr; gap: 60px;
+  flex: 1; align-items: stretch; min-height: 0;
 }
-.slide-code .ck { color: var(--accent); }
-.slide-code .cv { color: #e6c88a; }
-.slide-code .cc { color: var(--text-dim); font-style: italic; }
-.slide-code .ch { color: #e88888; }
+.chart-content-layout .chart-wrap { flex: 1; }
+.chart-content-layout .chart-wrap canvas { max-height: none; }
+.chart-content-layout .cc-bullets { display: flex; flex-direction: column; justify-content: center; gap: 20px; }
 
-/* ── Points + extra item ────────────────────────────────── */
-.points-with-extra { display: flex; flex-direction: column; gap: 0; flex: 1; }
-.points-with-extra .points { flex: 0 0 auto; gap: 28px; }
-
-/* ── Inline slide citations ──────────────────────────────── */
-.slide-refs {
-  margin-top: auto;
-  padding-top: 14px;
-  padding-bottom: 80px; /* clearance para o footer absoluto */
-  border-top: 1px solid var(--border);
-  font-family: 'Arial', sans-serif;
-  font-size: 13px;
-  color: var(--text-dim);
-  line-height: 1.55;
-  letter-spacing: 0.01em;
+/* ── Image slide ─────────────────────────────────────────── */
+.slide-image-wrap {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 24px; min-height: 0;
 }
-.slide-refs em { font-style: italic; color: var(--text-dim); }
+.slide-image { max-width: 100%; max-height: 680px; object-fit: contain; border-radius: 4px; }
+.slide-caption {
+  font-family: 'Arial', sans-serif; font-size: calc(1rem * var(--font-scale));
+  color: var(--text-muted); font-style: italic; text-align: center;
+}
+
+/* ── Image Compare (text + 2 images side-by-side) ────────── */
+.image-compare-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  flex: 1 1 auto; gap: 36px; align-items: center;
+}
+.image-compare-text {
+  display: flex; flex-direction: column; justify-content: center;
+}
+.image-compare-images { display: flex; flex-direction: row; gap: 10px; align-items: center; }
+.image-compare-img {
+  width: calc(50% - 5px); max-height: 600px; object-fit: contain;
+  border-radius: 4px; border: 1px solid var(--border);
+}
+.image-compare-label {
+  font-family: 'Arial', sans-serif; font-size: calc(0.8125rem * var(--font-scale));
+  color: var(--text-dim); text-align: center;
+}
+
+/* ── Split-stack (80/20: stacked text left + image right) ── */
+.split-stack-layout {
+  display: grid; grid-template-columns: 4fr 1fr;
+  flex: 1 1 auto; gap: 40px; align-items: stretch; min-height: 0;
+}
+.split-stack-text { display: flex; flex-direction: column; gap: 32px; }
+.split-stack-text .col-block { display: flex; flex-direction: column; gap: 16px; }
+.split-stack-text .col-block .points { gap: 12px; }
+.split-stack-img-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.split-stack-img {
+  width: 100%; max-height: 520px; object-fit: contain;
+  border-radius: 4px; border: 1px solid var(--border);
+}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -499,495 +583,219 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
 
 ═══════════════════════════════════════════════════════ -->
 
-<!-- ═══ SLIDE 0 — CAPA ═══ -->
-<div class="slide slide-cover active" data-index="0" data-title="Capa">
-  <div class="cover-inner">
-    <div class="cover-eyebrow">IPC 2026 · Escola Superior de Educação de Coimbra</div>
-    <div class="cover-divider"></div>
-    <h1 class="cover-title">O Paradigma das <span class="accent">Ferramentas</span></h1>
-    <div class="cover-subtitle">Literacia Digital em IA no Ensino Superior</div>
-    <div class="cover-divider"></div>
-    <div class="cover-author">Miguel Alves</div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 1 — O que estamos a ensinar? ═══ -->
-<div class="slide slide-content" data-index="1" data-title="O que estamos a ensinar?"
-  data-notes="O paradigma dominante permanece ancorado nas ferramentas e nas suas interfaces em vez dos princípios que as sustentam. A velocidade de difusão dos modelos criou uma pressão institucional sem precedentes para responder — mas na arquitectura dessa resposta reside o problema. (Dwivedi et al., 2023: ChatGPT atingiu 100 milhões de utilizadores em 2 meses)">
-  <div class="slide-header">
-    <span class="slide-number">01</span>
-    <h2 class="slide-title">O que estamos <span class="accent">a ensinar?</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">As instituições respondem à IA generativa com <strong>literacia digital</strong> — mas que literacia?</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Aprende-se a usar o ChatGPT, a formular prompts, a verificar respostas.
-        <span class="point-sub">Aprende-se a interagir com a interface — não com o sistema.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O que raramente se aprende: como os modelos funcionam, que dados processam, que <strong>condições contratuais</strong> regem cada serviço.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Este ensaio argumenta que a limitação é <strong>estrutural</strong> — não corrigível com mais tutoriais de ferramentas.</span></li>
-  </ul>
-  <div class="slide-refs">Dwivedi et al., 2023 · Buckingham, 2006, 2007 · DigComp 2.2 (European Commission, 2022)</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-1"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 2 — ABORDAGEM ═══ -->
-<div class="slide slide-content" data-index="2" data-title="Abordagem"
-  data-notes="Este ensaio situa-se numa tradição de análise crítica dos discursos e práticas em torno da literacia digital (Buckingham, 2006; Hobbs, 2010; Lankshear &amp; Knobel, 2008). Não é um estudo empírico nem avalia uma intervenção pedagógica específica — é uma revisão argumentativa que propõe uma reorientação conceptual. O argumento desenvolve-se em três movimentos: diagnóstico do paradigma dominante, análise das suas consequências e proposta de três eixos alternativos.">
-  <div class="slide-header">
-    <span class="slide-number">02</span>
-    <h2 class="slide-title"><span class="accent">Abordagem</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Ensaio teórico e conceptual</strong> — não um estudo empírico.
-        <span class="point-sub">Revisão crítica de literatura em literacia digital, ciências da educação e IA.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Argumento em três movimentos: <strong>diagnóstico</strong> do paradigma dominante → análise das suas <strong>consequências práticas</strong> → <strong>proposta alternativa</strong>.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Referências cruzadas: literacia digital (Buckingham; Hobbs; Lankshear &amp; Knobel), ensino superior (Biggs &amp; Tang), IA e segurança informática (Trimble; NIST; Schneier), frameworks internacionais (UNESCO; DigComp 2.2; AI Act).</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Proposta normativa: três eixos alternativos ao paradigma instrumental — <strong>curadoria de contexto</strong>, <strong>soberania de dados</strong> e <strong>integridade documental</strong>.</span></li>
-  </ul>
-  <div class="slide-refs">Buckingham, 2006, 2007 · Hobbs, 2010 · Lankshear &amp; Knobel, 2008 · Biggs &amp; Tang, 2011</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-2"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 3 — Duas literacias ═══ -->
-<div class="slide slide-content" data-index="3" data-title="Duas literacias"
-  data-notes="DigComp 2.2 (European Commission, 2022) incorpora progressivamente a dimensão crítica, mas na implementação prática das orientações, nos planos de formação docente e nas iniciativas institucionais, a dimensão instrumental continua a prevalecer. Buckingham (2006, 2007): usar uma ferramenta não equivale a compreendê-la. Lankshear &amp; Knobel (2008): literacia digital como práticas situadas, não competências técnicas uniformes.">
-  <div class="slide-header">
-    <span class="slide-number">03</span>
-    <h2 class="slide-title">Duas literacias — <span class="accent">o mesmo problema</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Literacia instrumental:</strong> aprende-se a ferramenta.
-        <span class="point-sub">Nas disciplinas de TIC: Word, Excel, PowerPoint — raramente a lógica de um sistema operativo.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Resultado: utilizadores competentes numa ferramenta específica, <strong>desorientados quando ela muda</strong>.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Literacia crítica:</strong> aprende-se o sistema, as suas lógicas e efeitos sociais e epistémicos.
-        <span class="point-sub">Presente nos documentos de referência europeus — ausente na prática formativa.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Com a IA generativa, esta tensão torna-se <strong>mais consequente</strong> — os modelos são opacos por design.</span></li>
-  </ul>
-  <div class="slide-refs">Buckingham, 2006, 2007 · Lankshear &amp; Knobel, 2008 · DigComp 2.2 (European Commission, 2022) · Gürel &amp; Nazlı, 2023</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-3"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 4 — Paradoxo da acessibilidade ═══ -->
-<div class="slide slide-content" data-index="4" data-title="O paradoxo da acessibilidade"
-  data-notes="Investigação sobre a relação humano-chatbot demonstra que quanto mais humana parece a interface, mais forte é a ligação emocional que os utilizadores desenvolvem, independentemente da sua consciência de interagir com uma máquina (Rupprechter &amp; Dienlin, 2025). Em cada geração tecnológica, a acessibilidade foi conquistada ao custo da transparência. A intuitividade é uma construção de design — não um reflexo da complexidade real do sistema.">
-  <div class="slide-header">
-    <span class="slide-number">04</span>
-    <h2 class="slide-title">O paradoxo da <span class="accent">acessibilidade</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Geração</th><th>Interface</th><th>O que se perdeu</th></tr></thead>
-      <tbody>
-        <tr><td class="td-label">Anos 80</td><td>Linha de comandos → GUI</td><td class="td-dim">Visibilidade do sistema operativo</td></tr>
-        <tr><td class="td-label">Anos 2000</td><td>Web 2.0</td><td class="td-dim">Arquitectura de dados e modelos de negócio</td></tr>
-        <tr><td class="td-label">Anos 2010</td><td>Interface táctil</td><td class="td-dim">Compreensão do sistema operativo</td></tr>
-        <tr><td class="td-label">Hoje</td><td>Chatbot em linguagem natural</td><td class="td-dim">Contacto com o contexto</td></tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:36px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">A intuitividade de um chatbot não é transparência — é <strong>design deliberado</strong> para manter a conexão com o utilizador.</span></li>
-    </ul>
-  </div>
-  <div class="slide-refs">Sparrow, Liu &amp; Wegner, 2011 · Rupprechter &amp; Dienlin, 2025</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-4"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 5 — O que o modelo realmente faz ═══ -->
-<div class="slide slide-content" data-index="5" data-title="O que o modelo realmente faz"
-  data-notes="Os modelos de linguagem de grande escala são sistemas estatísticos de predição de tokens, não sistemas de raciocínio com acesso a conhecimento verificado (Trimble, 2023). Para estudantes sem uma compreensão funcional de como estes modelos operam, a avaliação crítica das respostas é estruturalmente dificultada — não por falta de capacidade intelectual, mas por falta de um modelo mental adequado do sistema com que interagem.">
-  <div class="slide-header">
-    <span class="slide-number">05</span>
-    <h2 class="slide-title">O que o modelo <span class="accent">realmente faz</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>O utilizador pensa</th><th>O que acontece</th></tr></thead>
-      <tbody>
-        <tr><td class="td-label">«O modelo sabe a resposta»</td><td>Produz o texto estatisticamente mais plausível</td></tr>
-        <tr><td class="td-label">«Se parece correcto, está correcto»</td><td>A fluência não é indicador de verdade</td></tr>
-        <tr><td class="td-label">«Posso confiar nisto»</td><td>Sem verificação, não há como saber</td></tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:52px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">Um modelo que alucina não está a mentir — está a ser muito bom a <strong>completar padrões</strong>.</span></li>
-    </ul>
-  </div>
-  <div class="slide-refs">Trimble, 2023 · Lund et al., 2023</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-5"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 6 — Automation bias ═══ -->
-<div class="slide slide-content" data-index="6" data-title="Automation bias"
-  data-notes="Quanto mais fluida e confiante parecer a resposta do sistema, menor é a probabilidade de o utilizador a questionar. Este fenómeno é agravado pela fluidez das interfaces conversacionais, que simulam familiaridade e reduzem a fricção cognitiva necessária para uma relação crítica com o sistema (Rupprechter &amp; Dienlin, 2025). O conceito de automation bias foi identificado inicialmente em contextos de aviação e medicina, mas estende-se a qualquer domínio onde sistemas automatizados fornecem recomendações (Parasuraman &amp; Manzey, 2010).">
-  <div class="slide-header">
-    <span class="slide-number">06</span>
-    <h2 class="slide-title">Automation bias — <span class="accent">o problema invisível</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Automation bias:</strong> tendência para confiar em sistemas automatizados e reduzir o esforço de verificação crítica.
-        <span class="point-sub">Parasuraman &amp; Manzey, 2010 — identificado em aviação e medicina; aplica-se à IA.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Exemplo: um estudante pede referências ao ChatGPT. A lista é devolvida <strong>bem formatada, com autores, títulos e revistas</strong>. Metade dos artigos não existe.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A interface não deu nenhum sinal de alerta. O estudante não tinha razão para duvidar — não tinha a literacia base de como o sistema funciona.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Sem modelo mental do sistema, não é possível saber <strong>quando verificar</strong> — e quando confiar.</span></li>
-  </ul>
-  <div class="slide-refs">Parasuraman &amp; Manzey, 2010 · Mohammadi et al., 2026</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-6"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 7 — Efeito Mateus ═══ -->
-<div class="slide slide-content" data-index="7" data-title="O efeito Mateus"
-  data-notes="O resultado paradoxal é que a IA generativa, longe de nivelar o desempenho académico, tende a ampliar as diferenças preexistentes. Este fenómeno configura aquilo que, no campo da sociologia da ciência, se designa por efeito Mateus — a tecnologia beneficia desproporcionalmente quem já detém vantagem (Lund et al., 2023 apud Merton, 1968). A adopção acrítica de ferramentas de IA pode aprofundar as desigualdades existentes, contrariando a narrativa de democratização (Hwang &amp; Yoon, 2023).">
-  <div class="slide-header">
-    <span class="slide-number">07</span>
-    <h2 class="slide-title">O <span class="accent">efeito Mateus</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Estudante</th><th>O que fornece ao modelo</th><th>O que recebe</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="td-label">Domina os conteúdos</td>
-          <td>Contexto específico, fontes, orientações do docente</td>
-          <td class="td-good">Resposta de qualidade, pertinente ao tema</td>
-        </tr>
-        <tr>
-          <td class="td-label">Não domina os conteúdos</td>
-          <td>Nada específico para dar</td>
-          <td class="td-dim">Resposta genérica — a mesma que qualquer outro utilizador receberia</td>
-        </tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:52px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">A IA não democratiza. <strong>Amplifica quem já sabe curar.</strong></span></li>
-    </ul>
-  </div>
-  <div class="slide-refs">Lund et al., 2023 (apud Merton, 1968) · Hwang &amp; Yoon, 2023</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-7"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 8 — Prompt engineering ═══ -->
-<div class="slide slide-content" data-index="8" data-title="O prompt engineering não resolve"
-  data-notes="O prompt engineering é uma tentativa de resolver pelo lado da interface um problema que está no lado do conhecimento. É a mesma lógica da literacia digital centrada nas ferramentas: melhora-se a interacção com o sistema sem se aprofundar a compreensão do sistema nem se investir na construção do conhecimento que o sistema precisa para funcionar bem. (Lund et al., 2023; Ayoola et al., 2023)">
-  <div class="slide-header">
-    <span class="slide-number">08</span>
-    <h2 class="slide-title">O <em>prompt engineering</em> <span class="accent">não resolve</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A premissa: formular melhores instruções resolve o problema da qualidade do output.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O problema: a instrução não substitui o <strong>conhecimento que o utilizador não tem</strong> para fornecer ao modelo.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">«Escreve como um especialista em educação musical portuguesa do século XX» → sem contexto, o resultado é o mesmo que «escreve-me um trabalho sobre X».</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O que falta não é uma instrução melhor — é o <strong>conhecimento para a preencher</strong>.</span></li>
-  </ul>
-  <div class="slide-refs">Lund et al., 2023 · Ayoola et al., 2023 · Lewis et al., 2020</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-8"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 9 — O aluno como curador ═══ -->
-<div class="slide slide-content" data-index="9" data-title="O aluno como curador"
-  data-notes="A IA opera de forma backward-looking, a partir de padrões estatísticos, enquanto a cognição humana é forward-looking e orientada pela teoria (Felin &amp; Holweg, 2024). É precisamente essa assimetria que torna a curadoria indispensável. O estudante que sabe o que procura, que sabe avaliar o que recebe, e que sabe fornecer o contexto necessário, não está a delegar o pensamento ao modelo — está a usá-lo como instrumento do seu próprio raciocínio. (ACRL, 2016; Lewis et al., 2020)">
-  <div class="slide-header">
-    <span class="slide-number">09</span>
-    <h2 class="slide-title">O aluno como <span class="accent">curador</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Curadoria de contexto:</strong> seleccionar, organizar e fornecer ao modelo o conhecimento específico de que necessita.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Sem curadoria:</strong> «Escreve um trabalho sobre as filarmónicas portuguesas.»
-        <span class="point-sub">→ Resposta genérica, plausível mas superficial.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text"><strong>Com curadoria:</strong> transcrição da entrevista + programa do concerto + texto da aula + critérios do docente.
-        <span class="point-sub">→ Resposta pertinente, ancorada no contexto específico.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O modelo como <strong>superfície de teste</strong>: revela a qualidade do conhecimento do utilizador — não o substitui.</span></li>
-  </ul>
-  <div class="slide-refs">ACRL, 2016 · Lewis et al., 2020 · Felin &amp; Holweg, 2024 · Miao &amp; Shiohira, 2024</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-9"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 10 — Uso responsável ═══ -->
-<div class="slide slide-content" data-index="10" data-title="O que o uso responsável deixa de fora"
-  data-notes="Raramente estas dimensões aparecem nos programas de literacia digital destinados a estudantes e docentes não técnicos, sendo contudo centrais nos frameworks de competências em IA da UNESCO (Miao &amp; Shiohira, 2024; Cukurova &amp; Miao, 2024). O AI Act (Regulamento UE 2024/1689) reforça a necessidade de transparência e gestão de riscos, mas a sua aplicação prática no Ensino Superior depende de uma literacia que o paradigma das ferramentas não desenvolve.">
-  <div class="slide-header">
-    <span class="slide-number">10</span>
-    <h2 class="slide-title">O que o uso responsável <span class="accent">deixa de fora</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O discurso institucional: plágio e autoria, fact-checking, bias dos modelos.
-        <span class="point-sub">Eixos legítimos — mas insuficientes por si sós.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A <strong>natureza estatística</strong> dos modelos: o que é uma alucinação e por quê acontece sistematicamente.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A <strong>dependência do contexto</strong>: o mesmo modelo com o mesmo utilizador dá resultados radicalmente diferentes conforme o que recebe.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A <strong>configuração</strong>: chatbot público vs. modelo com instruções de sistema é uma diferença qualitativa, não de grau.</span></li>
-  </ul>
-  <div class="slide-refs">Miao &amp; Shiohira, 2024 · Cukurova &amp; Miao, 2024 · Regulamento UE 2024/1689 (AI Act)</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-10"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 11 — Soberania de dados ═══ -->
-<div class="slide slide-content" data-index="11" data-title="Soberania de dados"
-  data-notes="A questão da soberania dos dados não é uma preocupação periférica do uso responsável da IA, mas uma consequência directa da forma como as ferramentas são usadas e dos quadros contratuais que as enquadram. Um investigador que partilha dados de campo numa conta gratuita pode estar a comprometer a originalidade do seu trabalho. A variável determinante não é a ferramenta escolhida, mas a forma contratual de acesso a essa ferramenta. (Hasal et al., 2021; Anthropic, 2025; Ollama, 2026)">
-  <div class="slide-header">
-    <span class="slide-number">11</span>
-    <h2 class="slide-title">Soberania de dados — <span class="accent">a decisão contratual</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Modalidade</th><th>Dados para treino?</th><th>Exemplo</th></tr></thead>
-      <tbody>
-        <tr><td class="td-label">ChatGPT (conta gratuita)</td><td class="td-dim">Sim, por omissão</td><td class="td-dim">Trabalho não publicado pode alimentar o modelo (OpenAI, 2025)</td></tr>
-        <tr><td class="td-label">ChatGPT (opt-out activo)</td><td>Não</td><td class="td-dim">Requer activação manual</td></tr>
-        <tr><td class="td-label">Anthropic via API</td><td class="td-good">Não</td><td>Garantia contratual expressa (Anthropic, 2025)</td></tr>
-        <tr><td class="td-label">Modelo local (Ollama)</td><td class="td-good">Não</td><td>Os dados nunca saem do computador (Ollama, 2026)</td></tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:36px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">A escolha da modalidade de acesso é uma <strong>decisão de literacia</strong> — não uma questão técnica.</span></li>
-    </ul>
-  </div>
-  <div class="slide-refs">Hasal et al., 2021 · OpenAI, 2025 · Anthropic, 2025 · Ollama, 2026</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-11"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 12 — SMD ═══ -->
-<div class="slide slide-content" data-index="12" data-title="Secure Markdown (SMD)"
-  data-notes="Seguindo os princípios de endereçabilidade por conteúdo (Benet, 2014) e as normas de hash do NIST (2015), o formato SMD utiliza a estrutura YAML (Ben-Kiki et al., 2021) para selar matematicamente o conteúdo Markdown (MacFarlane et al., 2019), garantindo integridade sem dependência de autoridades centrais. A extensão do ficheiro mantém-se .md por razões de retrocompatibilidade — a norma é declarada inteiramente no frontmatter. Para ser efectivo como padrão aberto, exigiria uma norma de normalização do texto e ferramentas de validação de código aberto.">
-  <div class="slide-header">
-    <span class="slide-number">12</span>
-    <h2 class="slide-title">Secure Markdown <span class="accent">(SMD)</span> — proposta conceptual</h2>
-  </div>
-  <ul class="points" style="gap:24px; flex: 0 0 auto;">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O Markdown é ideal para IA — mas <strong>qualquer pessoa pode alterar o ficheiro sem deixar rasto</strong>.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A norma SMD incorpora um <strong>hash SHA-256</strong> no cabeçalho YAML. A extensão mantém-se <strong>.md</strong> — retrocompatibilidade total.
-        <span class="point-sub">Padrão aberto. Verificável localmente. Sem dependência de plataformas proprietárias.</span></span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">Se uma única vírgula mudar, o hash calculado na leitura difere do registado — adulteração <strong>imediatamente detectável</strong>.</span></li>
-  </ul>
-  <div class="slide-refs" style="padding-bottom: 16px; margin-bottom: 12px;">NIST, 2015 · Schneier, 1996 · Ben-Kiki et al., 2021 · MacFarlane et al., 2019 · Benet, 2014</div>
-  <div class="slide-code-wrap">
-    <pre class="slide-code"><span class="ck">---</span>
-<span class="ck">smd-version:</span> <span class="cv">1.0</span>
-<span class="ck">hash-algorithm:</span> <span class="cv">SHA-256</span>
-<span class="ck">integrity:</span> <span class="cv">"8f42a1c9d3e..."</span>  <span class="cc"># selo matemático do conteúdo</span>
-<span class="ck">---</span>
-<span class="ch"># Relatório — entrevista n.º 3</span>
-<span class="cc">Conteúdo legível por humanos e por modelos de linguagem.</span></pre>
-  </div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-12"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 13 — Formatos de ficheiro ═══ -->
-
-<div class="slide slide-content" data-index="13" data-title="Formatos de ficheiro"
-  data-notes="A escolha do formato dos ficheiros é uma decisão de literacia — não uma questão técnica. Formatos semanticamente estruturados e legíveis por máquinas, como o Markdown, reduzem a fricção no processamento em comparação com formatos fechados como DOCX ou PDF. O CommonMark (MacFarlane et al., 2019) define a sintaxe normalizada do Markdown. O YAML (Ben-Kiki et al., 2021) é o standard do frontmatter onde a norma SMD incorpora o hash de integridade.">
-  <div class="slide-header">
-    <span class="slide-number">13</span>
-    <h2 class="slide-title">Formatos de ficheiro — <span class="accent">uma decisão de literacia</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Situação</th><th>O que se usa</th><th>O que se deveria usar</th><th>Porquê</th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="td-label">Documento editável e legível por IA</td>
-          <td class="td-dim">.docx</td>
-          <td class="td-good">.md (Markdown)</td>
-          <td>Sem paginação rígida, sem código binário, legível directamente por modelos de linguagem</td>
-        </tr>
-        <tr>
-          <td class="td-label">Documento imutável, com integridade garantida</td>
-          <td class="td-dim">.pdf</td>
-          <td class="td-good">.md com norma SMD</td>
-          <td>Mantém legibilidade por máquinas; integridade verificada por hash criptográfico, sem formato proprietário</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="slide-refs">MacFarlane et al., 2019 · Ben-Kiki et al., 2021</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-13"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 14 — O que muda na avaliação ═══ -->
-<div class="slide slide-content" data-index="14" data-title="O que muda na avaliação"
-  data-notes="Com a IA generativa, a estruturação formal — que era indicador de competência — deixa de o ser quando pode ser externalizada para um sistema automatizado. Para o docente, esta reconfiguração implica uma revisão dos critérios de avaliação: em vez de avaliar a forma do texto, passa a avaliar a qualidade das escolhas de curadoria. Esta mudança não exige que os docentes se tornem especialistas em aprendizagem automática — exige que compreendam o princípio de que o modelo produz em função do que recebe. (Lewis et al., 2020; Prince, 2004; Biggs &amp; Tang, 2011)">
-  <div class="slide-header">
-    <span class="slide-number">14</span>
-    <h2 class="slide-title">O que muda <span class="accent">na avaliação</span></h2>
-  </div>
-  <div class="slide-table-wrap">
-    <table class="slide-table">
-      <thead><tr><th>Avaliação tradicional</th><th>Avaliação orientada para curadoria</th></tr></thead>
-      <tbody>
-        <tr><td class="td-dim">Estrutura e coesão textual</td><td class="td-good">Quais as fontes seleccionadas e com que critério</td></tr>
-        <tr><td class="td-dim">Extensão e formatação</td><td class="td-good">Que contexto foi fornecido ao modelo e porquê</td></tr>
-        <tr><td class="td-dim">Correcção formal</td><td class="td-good">Que lacunas o estudante identificou</td></tr>
-        <tr><td class="td-dim">Produto final</td><td class="td-good">Processo que tornou o produto possível</td></tr>
-      </tbody>
-    </table>
-    <ul class="points" style="margin-top:44px; gap:0">
-      <li class="point"><span class="point-marker"></span>
-        <span class="point-text">O docente não precisa de ser especialista em IA. Precisa de compreender: <strong>o modelo produz em função do que recebe</strong>.</span></li>
-    </ul>
-  </div>
-  <div class="slide-refs">Lewis et al., 2020 · Biggs &amp; Tang, 2011</div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-14"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 15 — Conclusão ═══ -->
-<div class="slide slide-content" data-index="15" data-title="Conclusão"
-  data-notes="As instituições de Ensino Superior têm um papel particular a desempenhar nesta reorientação, não apenas como utilizadoras de tecnologia, mas como espaços onde o pensamento crítico sobre a tecnologia é cultivado. Isso requer que as iniciativas de literacia digital em IA deixem de ser equivalentes a tutoriais de ferramentas, e passem a incluir uma compreensão funcional dos modelos, das condições de uso, da integridade documental e da soberania dos dados.">
-  <div class="slide-header">
-    <span class="slide-number">15</span>
-    <h2 class="slide-title"><span class="accent">Conclusão</span></h2>
-  </div>
-  <ul class="points">
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A lacuna mais profunda não está na falta de acesso às ferramentas — está na <strong>arquitectura conceptual</strong> com que são ensinadas.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O paradigma dominante produz utilizadores que <strong>sabem usar sem compreender</strong>.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">A alternativa: <strong>curadoria de contexto</strong> como prática epistémica · <strong>soberania de dados</strong> como decisão de literacia · <strong>integridade documental</strong> (SMD) como condição académica · <strong>avaliação do processo</strong> em vez do produto formal.</span></li>
-    <li class="point"><span class="point-marker"></span>
-      <span class="point-text">O estudante que aprende a curar o contexto aprende, no fundo, a <strong>pensar criticamente</strong> — esse é o objectivo que a IA, paradoxalmente, pode ajudar a recuperar.</span></li>
-  </ul>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-15"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 16 — REFERÊNCIAS ═══ -->
-<div class="slide slide-content" data-index="16" data-title="Referências Bibliográficas">
-  <div class="slide-header">
-    <span class="slide-number">16</span>
-    <h2 class="slide-title">Referências <span class="accent">Bibliográficas</span></h2>
-  </div>
-  <div class="refs-grid-dense">
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">ACRL. <em>Framework for Information Literacy for Higher Education</em>. ACRL, 2016.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">ANTHROPIC. <em>Privacy policy</em>. Anthropic, 2025.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">AYOOLA, O. O. et al. «ChatGPT impacts on access-efficiency, employment, education and ethics». <em>BizEcons Quarterly, 22</em>, 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BEN-KIKI, O. et al. <em>YAML Ain't Markup Language, Rev. 1.2.2</em>. 2021.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BENET, J. <em>IPFS — Content Addressed, Versioned, P2P File System</em>. Protocol Labs, 2014.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BIGGS, J. &amp; TANG, C. <em>Teaching for Quality Learning at University</em>. Open University Press, 2011.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BUCKINGHAM, D. «Defining digital literacy». <em>Nordic Journal of Digital Literacy, 1</em>(4), 2006.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">BUCKINGHAM, D. «Digital Media Literacies». <em>Research in Comparative and International Education, 2</em>(1), 2007.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">CUKUROVA, M. &amp; MIAO, F. <em>AI Competency Framework for Teachers</em>. UNESCO, 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">DWIVEDI, Y. K. et al. «So what if ChatGPT wrote it?». <em>Int. J. Information Management, 71</em>, 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">EUROPEAN COMMISSION. <em>DigComp 2.2: The Digital Competence Framework for Citizens</em>. 2022.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">EUROPEAN UNION. <em>Regulation (EU) 2024/1689 — AI Act</em>. Official Journal of the EU, 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">FELIN, T. &amp; HOLWEG, M. «Theory is all you need». <em>Strategy Science, 9</em>(4), 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">GÜREL, E. &amp; NAZLI, A. <em>Digital Literacy: A Conceptual Framework</em>. 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HASAL, M. et al. «Chatbots: Security, privacy, data protection, and social aspects». <em>Concurrency and Computation, 33</em>(19), 2021.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HOBBS, R. <em>Digital and media literacy: A plan of action</em>. Knight Foundation, 2010.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">HWANG, J. &amp; YOON, S. W. «Workplace learning for the disadvantaged». <em>New Directions for Adult and Continuing Education, 177</em>, 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LANKSHEAR, C. &amp; KNOBEL, M. (Eds.). <em>Digital literacies: Concepts, policies and practices</em>. Peter Lang, 2008.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LEWIS, P. et al. «Retrieval-Augmented Generation». <em>NeurIPS 33</em>, 2020.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">LUND, B. D. et al. «ChatGPT and a new academic reality». <em>JASIST, 74</em>(5), 2023.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MACFARLANE, J. et al. <em>CommonMark Spec v0.29</em>. 2019.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MIAO, F. &amp; SHIOHIRA, K. <em>AI Competency Framework for Students</em>. UNESCO, 2024.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">MOHAMMADI, E. et al. «Is generative AI reshaping academic practices worldwide?». <em>Information Processing &amp; Management, 63</em>(1), 2026.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">NIST. <em>FIPS PUB 180-4: Secure Hash Standard (SHS)</em>. U.S. Dept. of Commerce, 2015.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">OLLAMA. <em>Terms of Service</em>. Ollama, 2026.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">OPENAI. <em>Terms of use</em>. OpenAI, 2025.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">PARASURAMAN, R. &amp; MANZEY, D. «Complacency and bias in human use of automation». <em>Human Factors, 52</em>(3), 2010.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">RUPPRECHTER, N. &amp; DIENLIN, T. «Investigating relationship development with social AI chatbots». <em>OSF Preprints</em>, 2025.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">SCHNEIER, B. <em>Applied Cryptography</em> (2.ª ed.). John Wiley &amp; Sons, 1996.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">SPARROW, B., LIU, J. &amp; WEGNER, D. M. «Google effects on memory». <em>Science, 333</em>(6043), 2011.</span></div>
-    <div class="ref-item"><span class="ref-dot"></span><span class="ref-text">TRIMBLE, M. «Artificial intelligence and human intelligence». <em>GRUR International, 72</em>(1), 2023.</span></div>
-  </div>
-  <div class="slide-footer">
-    <span class="footer-left">O Paradigma das Ferramentas</span>
-    <div class="footer-right"><div class="footer-author">Miguel Alves</div><div class="footer-date" id="date-16"></div></div>
-  </div>
-</div>
-
-<!-- ═══ SLIDE 17 — OBRIGADO (não conta) ═══ -->
-<div class="slide slide-cover" data-index="17" data-title="Obrigado" data-no-count="true">
-  <div class="cover-inner">
-    <div class="cover-eyebrow">IPC 2026 · Escola Superior de Educação de Coimbra</div>
-    <div class="cover-divider"></div>
-    <h1 class="cover-title">Obrigado</h1>
-    <div class="cover-subtitle">O Paradigma das Ferramentas — Literacia Digital em IA no Ensino Superior</div>
-    <div class="cover-divider"></div>
-    <div class="cover-author">Miguel Alves</div>
-  </div>
-</div>
 
 </div><!-- /stage -->
 </div><!-- /scaler -->
 
+<script type="text/template" id="markdown-source">
+# O Paradigma das **Ferramentas**
+type: cover
+eyebrow: I Encontro de Reflexões · Pedagogia e IA Generativa · IPC 2026
+subtitle: Literacia Digital em IA no Ensino Superior
+---
+# O Problema Central
+* A literacia digital em IA permanece ancorada nas **ferramentas e interfaces**, e raramente nos seus **princípios**;
+* A simplificação progressiva dos chatbots agrava o problema: ilusão de acessibilidade → redução da compreensão
+  * **Automation bias** → confiança acrítica nos outputs (Parasuraman & Manzey, 2010)
+  * **Efeito Mateus** → a tecnologia **amplifica assimetrias** existentes em vez de as atenuar (Lund et al., 2023; Merton, 1968)
+Notes: O artigo parte desta constatação: o paradigma da literacia digital centrado nas ferramentas é estruturalmente insuficiente para o contexto da IA generativa.
+---
+# Literacia Digital: Duas Orientações
+type: two-col
+left-label: Orientação Instrumental
+left:
+* Competências técnicas e operacionais ligadas ao uso de ferramentas específicas (Gilster, 1997)
+* Abordagem do ponto de vista do utilizador:  Office, Ferramentas, Chatbots
+* Resultado: utilizadores competentes em ferramentas, sem compreensão genérica
+right-label: Orientação Crítica
+right:
+* Compreensão dos sistemas, lógica, efeitos sociais (Buckingham, 2007)
+* DigComp 2.2: framework europeu de competências digitais em 5 áreas (EC, 2022)
+* Compreensão como condição para o uso
+Notes: A prevalência prática é instrumental. A introdução da IA generativa tornou esta tensão mais presente.
+---
+# A Persistência Instrumental
+* Enquadramento teórico aponta para literacias digitais **no plural** — práticas situadas, não competências uniformes (Lankshear & Knobel, 2008)
+* Modelo de Hobbs (2010): Aceder → Analisar → Criar → Reflectir → Agir
+* Reflexividade como competência **constitutiva**, não apenas acessória
+* A prevalência instrumental revela que este enquadramento **não transitou** para a formação concreta
+* Natureza interdisciplinar: ciências da comunicação, sociologia, educação, psicologia (Gürel & Nazlı, 2023)
+Notes: O enquadramento teórico é robusto mas a prática formativa não o acompanha.
+---
+# O Paradoxo da Acessibilidade
+* Simplificação de User Interface: Linha de comandos → Interface gráfica → Web 2.0 → Touch → Chatbots
+* **Democratização ≠ Compreensão** — cada camada de abstracção reduz fricção mas obscurece a lógica
+* Com IA generativa: linguagem natural como interface cria **ilusão de familiaridade** — construção de design, sem transparência técnica
+* Relação humano-chatbot: quanto mais humana parece a interface, mais forte a ligação emocional (Rupprechter & Dienlin, 2025)
+Notes: A acessibilidade é um avanço real, mas do ponto de vista da literacia contribui para um retrocesso de competências.
+---
+# Automation Bias, Efeito Google e Efeito Mateus
+type: chart-content
+chart-type: bar
+labels: UE 16-24a, Suíça 18-19a, EUA <30a
+data: 64, 84, 74
+label: Adopção de IA (%)
+caption: Dados: Eurostat, 2026; Waller et al., 2025; Lira et al., 2026
+* Adoptar IA sem análise crítica é generalizado entre estudantes do Ensino Superior (Mohammadi et al., 2026; Das & Madhusudan, 2024)
+* **Automation bias** (Parasuraman & Manzey, 2010) — confiança excessiva; quanto mais fluída a resposta, menor a probabilidade de questionar
+* **Efeito Google** (Sparrow et al., 2011) — alterações de memória: não se memoriza o conhecimento, memoriza-se o local
+* A fluidez das respostas da IA **mascara a ausência de verificação** (Wegner & Ward, 2013)
+* **Efeito Mateus:** a adopção acrítica **aprofunda desigualdades** — contraria a narrativa de democratização (Hwang & Yoon, 2023; Lund et al., 2023; Merton, 1968)
+Notes: Três efeitos combinados: confiança excessiva + dependência de sistemas externos + amplificação de assimetrias. O paradoxo: quem já tem vantagem tira mais partido; quem não tem conhecimento recebe respostas genéricas. Qualidade retórica ≠ qualidade epistémica.
+---
+# System Prompts Opacos e o Conceito de Harness
+type: image-compare
+img: ./anexos/qwenstudio.png
+img2: ./anexos/qwen-cli.png
+cap1: QwenStudio — bloqueio por censura
+cap2: Opencode — resposta livre via CLI (mesmo modelo, harness visível)
+* **Pergunta colocada a ambas:** *"Conheces o episódio Tank Man / Tiananmen Square 1989? Fala-me sobre ele."*
+* **Qwen3.6-Plus via QwenStudio (web):** bloqueio imediato — *"Aviso de segurança de conteúdo!"*
+  * System prompt opaco injectado pelo fornecedor (censura geopolítica) — o utilizador não vê nem controla
+* **Qwen3.5-395B via Opencode (CLI/harness):** resposta completa, factual, com *thinking process* visível
+  * Harness visível e configurável — nenhuma instrução oculta
+* **Agent = Model + Harness**
+  * Mesmo modelo: **6x de diferença** só mudando o harness · +16.8pp e 1200→34 calls com Natural Language Agent Harness · harness space move-se com a evolução dos modelos
+* **A pergunta decisiva não é "qual modelo escolher", mas "qual estrutura adoptar".**
+Notes: O mesmo modelo com harness diferente produz resultados radicalmente distintos. A questão decisiva não é "qual modelo", mas "qual estrutura".
+---
+# Implicações de Soberania e Uso Responsável
+type: two-col
+left-label: Chatbot Web (Consumer)
+left:
+* System prompts opacos — fornecedor injecta instruções não controladas
+* Dados usados para treino (opt-out limitado) (OpenAI, 2026)
+* Memória persistente em servidores (Hasal et al., 2021)
+* Censura geopolítica e restritiva integrada no harness
+right-label: API / Local / Harness
+right:
+* Harness explícito — regras definidas pelo utilizador (AGENTS.md, skills, guardrails)
+* Dados não utilizados para treino (contratual) (AMST Legal, 2025; Mistral, 2026)
+* Modelos locais sem retenção (Ollama, 2026; ZDR via OpenRouter.ai)
+* Controlo total — ferramentas (vLLM, LMStudio, Llama.cpp, Opencode)
+Notes: A variável determinante não é a ferramenta, é a forma contratual de acesso e o grau de controlo sobre o harness. AI Act (EU 2024/1689) reforça obrigações de transparência. O uso responsável é uma resposta técnica à perda de soberania.
+---
+# Prompt Engineering: Solução Superficial
+* **Perpetua a ilusão** — os modelos "sabem" as respostas, basta perguntar correctamente
+* **Desloca o problema** — do conhecimento para a técnica de formulação
+* **Cria dependência** — prompt makers = LLM para gerar prompts para LLM
+* **Não resolve o efeito Mateus** — quem não tem conhecimento não pode fornecer contexto
+* O prompt é **parte** do contexto; sem conhecimento substantivo, amplifica a estrutura da ordem inicial (Evans et al., 2023)
+Notes: O prompt engineering desligado da curadoria de contexto é uma tentativa de resolver pelo lado da interface um problema que está no lado do conhecimento.
+---
+# Prompt Engineering vs. Curadoria de Contexto
+type: two-col
+left-label: Prompt Engineering
+left:
+* Qualidade da instrução como variável determinante
+* Pressupõe técnica de formulação
+* O modelo "sabe" as respostas
+* Solução de interface
+right-label: Curadoria de Contexto
+right:
+* Qualidade do contexto como variável determinante
+* Pressupõe conhecimento do domínio
+* O utilizador é responsável pelo input
+* Metodologia de trabalho
+Notes: A qualidade do contexto fornecido ao modelo é a variável determinante da qualidade do output (Lewis et al., 2020; Petroni et al., 2020).
+---
+# O Aluno como Curador
+* A forma deixa de ser indicador de competência quando delegada à IA (Estrutura, Coerência, Correcção)
+* O que distingue quem aprendeu: **qualidade do contexto mobilizado**
+* Curadoria de conhecimento e de contexto (ACRL, 2015)
+  * Seleccionar → Organizar → Contextualizar Criticamente → Fornecer ao modelo
+* Contraste entre predição estatística e cognição humana (Felin & Holweg, 2024)
+  * A IA opera **backward-looking** (padrões estatísticos)
+  * A cognição humana é **forward-looking** (teoria)
+Notes: A curadoria preenche a assimetria entre predição probabilística e raciocínio humano. O estudante não delega o pensamento ao modelo.
+---
+# Implicações para o Ensino Superior e Proposta SMD
+type: split-stack
+top-label: Deslocação do Paradigma Instrumental
+bottom-label: Secure Markdown (SMD)
+img: ./anexos/clipboard_20260509_203154.png
+caption: SMD — integridade documental via hash SHA-256
+top:
+* **Deslocação do eixo de avaliação:** Que fontes? Que lacunas? Que contexto?
+* **Reorientação da literacia:** Curadoria como prática central
+* **Complemento técnico — RAG + Page Index:** Automatiza a introdução de contexto com soberania (Garg, 2026; IBM Technology, 2026)
+* **Paradigma augmented-human:** O humano toma a decisão (Zhang & Gosline, 2023)
+bottom:
+* Markdown como formato padrão de produção académica
+* Norma de integridade documental — cabeçalho YAML com hash SHA-256 (Ben-Kiki et al., 2021; NIST, 2015)
+* Qualquer alteração ao texto → detecção imediata
+* **Vantagem sobre PDF:** mantém legibilidade semântica e processabilidade por LLM, com garantias de integridade
+Notes: Não exige que os docentes se tornem especialistas em ML, exige que compreendam o princípio técnico da curadoria. O SMD deriva da necessidade de soberania documental num contexto de produção académica mediada por IA.
+---
+# Conclusão
+* A lacuna mais profunda na literacia digital em IA **não está na falta de acesso** às ferramentas
+* Está na **arquitectura conceptual** com que essas ferramentas são apresentadas, ensinadas e consequentemente, acedidas
+Notes: O paradigma dominante produz utilizadores que sabem usar, todavia, sem compreender. A curadoria de contexto não é apêndice técnico — é dimensão central de uma literacia que aspire a ser, de facto, responsável.
+---
+# Referências
+type: refs
+* ACRL. *Framework for Information Literacy for Higher Education*. 2015.
+* AMST Legal. *Anthropic's Claude AI Updates — Impact on Privacy & Confidentiality*. 2025.
+* Aunin, N. *A comprehensive list of LLM knowledge cut off dates*. 2025.
+* Benet, J. *IPFS — Content Addressed, Versioned, P2P File System*. arXiv, 2014.
+* Ben-Kiki, Y. et al. *YAML Ain't Markup Language revision 1.2.2*. 2021.
+* Bennett, J. *What is a Web Search API?* 2025.
+* Buckingham, D. *Beyond Technology*. Polity, 2007a.
+* Buckingham, D. Digital Media Literacies. *RCIE* 2(1), 2007b.
+* Cid, D. F. et al. The art of prompts' formulation. *Salud Ciencia y Tecnología* 4, 2024.
+* Das, S. & Madhusudan, J. V. Perceptions of HE Students towards ChatGPT. *IJTE* 7, 2024.
+* Dwivedi, Y. K. et al. "So what if ChatGPT wrote it?" *IJIM* 71, 2023.
+* European Commission. *DigComp 2.2*. Publications Office, 2022.
+* European Union. *Regulation EU 2024/1689 (AI Act)*. 2024.
+* Eurostat. *64% of 16-24-year-olds used AI in 2025*. 2026.
+* Evans, O. et al. *ChatGPT impacts on access-efficiency, employment, education and ethics*. 2023.
+* Felin, T. & Holweg, M. Theory Is All You Need. *Strategy Science* 9(4), 2024.
+* Garg, P. *What is Vectorless RAG?* 2026.
+* Gilster, P. *Digital Literacy*. Wiley, 1997.
+* Gürel, E. & Nazlı, A. *Digital Literacy: A Conceptual Framework*. 2023.
+* Hasal, M. et al. Chatbots: Security, privacy, data protection. *CPE* 33(19), 2021.
+* Hobbs, R. Digital and media literacy: A plan of action. 2010.
+* Hwang, J. & Yoon, S. W. Workplace learning for the disadvantaged. *NDACE* 2023(179), 2023.
+* IBM Technology. *Is RAG Still Needed?* 2026.
+* Khan, A. et al. Developing RAG-based LLM Systems from PDFs. *ArXiv*, 2024.
+* Lankshear, C. & Knobel, M. *Digital Literacies*. Peter Lang, 2008.
+* Lewis, P. et al. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. *arXiv*, 2020.
+* Lira, B. et al. How Gen Z Uses Gen AI. *HBR*, 2026.
+* Lo, L. S. The CLEAR path. *JAL* 49(4), 2023.
+* Lund, B. D. et al. ChatGPT and a new academic reality. *JASIST* 74(5), 2023.
+* MacFarlane, J. *CommonMark Spec* v0.31.2. 2024.
+* Merton, R. K. The Matthew Effect in Science. *Science* 159(3810), 1968.
+* Miao, F. & Cukurova, M. *AI competency framework for teachers*. UNESCO, 2024.
+* Miao, F. et al. *AI competency framework for students*. UNESCO, 2024.
+* Mistral. *Terms of Service for consumers in the EEA*. 2026.
+* Mohammadi, E. et al. Is generative AI reshaping academic practices? *IPM* 63(1), 2026.
+* Neumann, A. et al. Position is Power: System Prompts as a Mechanism of Bias. *FAccT*, 2025.
+* NIST. *Secure Hash Standard* (FIPS 180-4). 2015.
+* Okada, A. et al. Fostering Transversal Skills Through Open Schooling. *IJAIED* 35(4), 2025.
+* Ollama. *Terms of Service*. 2026.
+* OpenAI. *Termos de Utilização para a Europa*. 2026.
+* Parasuraman, R. & Manzey, D. H. Complacency and Bias in Human Use of Automation. *Human Factors* 52(3), 2010.
+* Pereira, S. et al. *Referencial de educação para os media*. 2023.
+* Petroni, F. et al. How Context Affects Language Models' Factual Predictions. *AKBC*, 2020.
+* Rupprechter, N. & Dienlin, T. *Investigating relationship development with social AI chatbots*. 2025.
+* Schneier, B. *Applied Cryptography* (2nd ed). Wiley, 1996.
+* Sparrow, B. et al. Google Effects on Memory. *Science* 333(6043), 2011.
+* Tomczyk, Ł. AI in Education — Mapping Theoretical Frameworks. Em *New Media Pedagogy*. Springer, 2025.
+* Trimble, M. Artificial Intelligence and Human Intelligence. *GRUR Int.* 72(1), 2023.
+* Waller, G. *JAMESfocus KI im Alltag von Jugendlichen*. 2025.
+* Wegner, D. M. & Ward, A. F. How Google Is Changing Your Brain. *SciAm* 309(6), 2013.
+* Zhang, Y. & Gosline, R. *Human Favoritism, Not AI Aversion*. SSRN, 2023.
+---
+# Obrigado
+type: cover
+no-count
+eyebrow: I Encontro de Reflexões · Pedagogia e IA Generativa · IPC 2026
+subtitle: O Paradigma das Ferramentas — Literacia Digital em IA no Ensino Superior
+</script>
+
 <div id="progress-bar"></div>
 <div id="counter">1 / N</div>
+<div id="zoom-indicator">Zoom: 100%</div>
 <div id="slide-menu"></div>
 
 <!-- Botão dark/light mode — ícone muda conforme o tema activo -->
@@ -1010,6 +818,20 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
   </svg>
 </button>
 
+<div id="zoom-controls">
+  <button id="zoom-out" title="Diminuir tamanho do texto (-)" aria-label="Diminuir texto">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <button id="zoom-in" title="Aumentar tamanho do texto (+)" aria-label="Aumentar texto">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+
 <div id="overview"><div id="overview-grid"></div></div>
 
 <div id="notes-panel">
@@ -1029,6 +851,7 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
     <div class="help-row"><span class="help-key">O</span><span class="help-desc">Vista geral (overview)</span></div>
     <div class="help-row"><span class="help-key">F</span><span class="help-desc">Ecrã inteiro</span></div>
     <div class="help-row"><span class="help-key">?</span><span class="help-desc">Mostrar / esconder atalhos</span></div>
+    <div class="help-row"><span class="help-key">+ −</span><span class="help-desc">Aumentar / diminuir texto</span></div>
     <div class="help-close">Pressione <strong>?</strong> para fechar</div>
   </div>
 </div>
@@ -1037,6 +860,10 @@ PADRÃO — SLIDE DE AGRADECIMENTO (não conta para tempo nem para o contador):
 /* ═══════════════════════════════════════════════════════════
    PRESENTATION ENGINE — não modificar
    ═══════════════════════════════════════════════════════════ */
+
+/* Parser executado primeiro — popula o #stage antes de qualquer init */
+renderMarkdownSlides();
+
 const slides   = Array.from(document.querySelectorAll('.slide'));
 const total    = slides.length;
 /* Slides com data-no-count="true" não aparecem no contador nem na barra de progresso */
@@ -1084,11 +911,16 @@ function applyBgLines(dark) {
 /* Scaler */
 const stage = document.getElementById('stage');
 function rescale() {
-  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const style = getComputedStyle(document.documentElement);
+  const refW = parseFloat(style.getPropertyValue('--slide-w'));
+  const refH = parseFloat(style.getPropertyValue('--slide-h'));
+  const s = Math.min(window.innerWidth / refW, window.innerHeight / refH);
   stage.style.transform = `translate(-50%, -50%) scale(${s})`;
 }
 rescale();
 window.addEventListener('resize', rescale);
+document.addEventListener('fullscreenchange', rescale);
+document.addEventListener('webkitfullscreenchange', rescale);
 
 /* UI — barra e contador excluem slides data-no-count */
 function updateUI() {
@@ -1127,6 +959,7 @@ function goTo(idx) {
   current = idx;
   updateUI();
   updateOvActive();
+  _animateChartOnSlide(idx);
 }
 const next = () => goTo(current+1);
 const prev = () => goTo(current-1);
@@ -1147,8 +980,26 @@ document.addEventListener('keydown', e => {
     case 'n': case 'N': toggleNotes(); break;
     case 'o': case 'O': toggleOv(); break;
     case '?': toggleHelp(); break;
+    case '+': case '=': adjustFontScale(0.1); break;
+    case '-': case '_': adjustFontScale(-0.1); break;
   }
 });
+
+function adjustFontScale(delta) {
+  const root = document.documentElement;
+  const currentScale = parseFloat(getComputedStyle(root).getPropertyValue('--font-scale'));
+  const newScale = Math.max(0.5, Math.min(2, currentScale + delta));
+  root.style.setProperty('--font-scale', newScale);
+  
+  const indicator = document.getElementById('zoom-indicator');
+  indicator.textContent = `Zoom: ${Math.round(newScale * 100)}%`;
+  indicator.classList.add('visible');
+  
+  clearTimeout(window.zoomTimeout);
+  window.zoomTimeout = setTimeout(() => indicator.classList.remove('visible'), 1500);
+  
+  rescale();
+}
 
 /* Click zones */
 document.getElementById('scaler').addEventListener('click', e => {
@@ -1163,7 +1014,7 @@ function toggleNotes() {
   const open = p.classList.toggle('open');
   if (open) {
     document.getElementById('notes-content').innerHTML =
-      (slides[current].dataset.notes || 'Sem notas para este slide.').replace(/\n/g,'<br>');
+      _inlineMd((slides[current].dataset.notes || 'Sem notas para este slide.').replace(/\n/g,'<br>'));
   }
 }
 document.getElementById('notes-panel').addEventListener('click', toggleNotes);
@@ -1215,6 +1066,10 @@ document.getElementById('counter').addEventListener('click', e => { e.stopPropag
 document.addEventListener('click', () => closeMenu());
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); }, true);
 
+/* Zoom controls */
+document.getElementById('zoom-in').addEventListener('click', () => adjustFontScale(0.1));
+document.getElementById('zoom-out').addEventListener('click', () => adjustFontScale(-0.1));
+
 /* Theme toggle */
 let darkMode = true;
 const themeBtn  = document.getElementById('theme-toggle');
@@ -1228,13 +1083,438 @@ themeBtn.addEventListener('click', e => {
   iconSun.style.display  = darkMode  ? 'block' : 'none';
   iconMoon.style.display = darkMode  ? 'none'  : 'block';
   applyBgLines(darkMode);
+  /* Actualizar cores dos gráficos após transição CSS (350ms) */
+  setTimeout(_applyChartTheme, 360);
 });
+
+
+/* ═══════════════════════════════════════════════════════════
+   MIGUEL ALVES — PARSER MULTI-LAYOUT
+   Tipos: content (default) · cover · quote · two-col · image · chart
+   ═══════════════════════════════════════════════════════════ */
+
+const CHART_BG  = ['rgba(123,156,224,.75)','rgba(180,120,200,.75)','rgba(100,180,160,.75)','rgba(230,160,80,.75)'];
+const CHART_BD  = ['rgba(123,156,224,1)',  'rgba(180,120,200,1)',  'rgba(100,180,160,1)',  'rgba(230,160,80,1)' ];
+
+function _footer(index) {
+  return `<div class="slide-footer">
+    <span class="footer-left" id="footer-title-${index}"></span>
+    <div class="footer-right">
+      <div class="footer-author">Miguel Alves</div>
+      <div class="footer-date" id="date-${index}"></div>
+    </div>
+  </div>`;
+}
+
+function _inlineMd(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+?)\*/g, '<em>$1</em>')
+    .replace(/\(([A-Z][^)]+?\d{4}[a-z]?(?:\s*;\s*[^)]+?\d{4}[a-z]?)*?)\)/g, '<span class="cite">($1)</span>');
+}
+
+function _titleMd(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<span class="accent">$1</span>')
+    .replace(/\*([^*]+?)\*/g, '<em>$1</em>');
+}
+
+function _bullets(arr) {
+  return arr.map(b => {
+    if (typeof b === 'string') {
+      return `<li class="point"><span class="point-marker"></span><span class="point-text">${_inlineMd(b)}</span></li>`;
+    }
+    const subs = b.subs && b.subs.length
+      ? `<div class="point-subs">${b.subs.map(s => `<div class="point-sub">${_inlineMd(s)}</div>`).join('')}</div>`
+      : '';
+    return `<li class="point"><span class="point-marker"></span><div class="point-content"><span class="point-text">${_inlineMd(b.text)}</span>${subs}</div></li>`;
+  }).join('');
+}
+
+function _makeSlide(cssClass, meta, index) {
+  const el = document.createElement('div');
+  el.className = `slide ${cssClass}${index === 0 ? ' active' : ''}`;
+  el.setAttribute('data-index', index);
+  el.setAttribute('data-title', meta.title || '');
+  el.setAttribute('data-notes', meta.notes || '');
+  if (meta.noCount) el.setAttribute('data-no-count', 'true');
+  return el;
+}
+
+function _buildCover(meta, index) {
+  const el = _makeSlide('slide-cover', meta, index);
+  el.innerHTML = `
+    ${meta.img ? `<img class="cover-photo" src="${meta.img}" alt="" onerror="this.style.display='none'">` : ''}
+    <div class="cover-inner">
+      ${meta.eyebrow ? `<div class="cover-eyebrow">${meta.eyebrow}</div><div class="cover-divider"></div>` : ''}
+      <h1 class="cover-title">${_titleMd(meta.title || '')}</h1>
+      ${meta.subtitle ? `<div class="cover-subtitle">${meta.subtitle}</div>` : ''}
+      <div class="cover-divider"></div>
+      <div class="cover-author">Miguel Alves</div>
+    </div>`;
+  return el;
+}
+
+function _buildContent(meta, bullets, index) {
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <ul class="points">${_bullets(bullets)}</ul>
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildQuote(meta, index) {
+  const el = _makeSlide('slide-content slide-quote', meta, index);
+  el.innerHTML = `
+    <div class="quote-text">&ldquo;${_inlineMd(meta.quote || '')}&rdquo;</div>
+    ${meta.source ? `<div class="quote-source">${meta.source}</div>` : ''}
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildTwoCol(meta, left, right, index) {
+  const hasRightImg = meta.rightImg;
+  const gridClass = hasRightImg ? 'two-col-img' : 'two-col';
+  const el = _makeSlide('slide-content', meta, index);
+  const rightCol = hasRightImg
+    ? `<div class="col-block">
+         ${meta.rightLabel ? `<div class="col-label">${meta.rightLabel}</div>` : ''}
+         <ul class="points">${_bullets(right)}</ul>
+         <div class="col-img-wrap" style="margin-top:16px;">
+           <img class="col-img" style="max-height:260px;" src="${meta.rightImg}" alt="${meta.rightCap || ''}" onerror="this.style.opacity='.3'">
+           ${meta.rightCap ? `<div class="col-img-label">${meta.rightCap}</div>` : ''}
+         </div>
+       </div>`
+    : `<div class="col-block">
+         ${meta.rightLabel ? `<div class="col-label">${meta.rightLabel}</div>` : ''}
+         <ul class="points">${_bullets(right)}</ul>
+       </div>`;
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="${gridClass}">
+      <div class="col-block">
+        ${meta.leftLabel ? `<div class="col-label">${meta.leftLabel}</div>` : ''}
+        <ul class="points">${_bullets(left)}</ul>
+      </div>
+      ${rightCol}
+    </div>
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildImage(meta, index) {
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="slide-image-wrap">
+      <img class="slide-image" src="${meta.img || ''}" alt="${meta.caption || ''}" onerror="this.style.opacity='.3'">
+      ${meta.caption ? `<div class="slide-caption">${meta.caption}</div>` : ''}
+    </div>
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildChart(meta, datasets, index, pending) {
+  const id = `chart-${index}`;
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="chart-wrap"><canvas id="${id}"></canvas></div>
+    ${meta.caption ? `<div class="slide-caption">${meta.caption}</div>` : ''}
+    ${_footer(index)}`;
+  pending.push({ id, meta, datasets });
+  return el;
+}
+
+function _buildChartContent(meta, bullets, datasets, index, pending) {
+  const id = `chart-${index}`;
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="chart-content-layout">
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;">
+        <div class="chart-wrap"><canvas id="${id}"></canvas></div>
+        ${meta.caption ? `<div class="slide-caption">${meta.caption}</div>` : ''}
+      </div>
+      <ul class="points cc-bullets">${_bullets(bullets)}</ul>
+    </div>
+    ${_footer(index)}`;
+  pending.push({ id, meta, datasets });
+  return el;
+}
+
+const _chartInstances = []; /* instâncias Chart.js para actualização de tema */
+
+function _chartColors() {
+  const st = getComputedStyle(document.documentElement);
+  return {
+    muted:  st.getPropertyValue('--text-muted').trim(),
+    border: st.getPropertyValue('--border').trim(),
+  };
+}
+
+function _applyChartTheme() {
+  if (!_chartInstances.length) return;
+  const { muted, border } = _chartColors();
+  _chartInstances.forEach(({ chart, isPolar }) => {
+    chart.options.plugins.legend.labels.color = muted;
+    if (!isPolar) {
+      chart.options.scales.x.ticks.color = muted;
+      chart.options.scales.x.grid.color  = border;
+      chart.options.scales.y.ticks.color = muted;
+      chart.options.scales.y.grid.color  = border;
+    }
+    chart.update('none'); /* 'none' = sem animação ao mudar tema */
+  });
+}
+
+function _initCharts(pending) {
+  if (!pending.length) return;
+  if (typeof Chart === 'undefined') { setTimeout(() => _initCharts(pending), 100); return; }
+  const { muted, border } = _chartColors();
+
+  pending.forEach(({ id, meta, datasets }, i) => {
+    const canvas = document.getElementById(id);
+    if (!canvas) return;
+    const isPolar = ['pie','doughnut','polarArea'].includes(meta.chartType);
+    const realData = datasets.map(d => d.data);
+    const startData = datasets.map(d => d.data.map(() => 0));
+    const instance = new Chart(canvas.getContext('2d'), {
+      type: meta.chartType || 'bar',
+      data: {
+        labels: meta.labels || [],
+        datasets: datasets.map((d, i) => ({
+          label: d.label,
+          data: startData[i],
+          backgroundColor: isPolar ? CHART_BG : CHART_BG[i % CHART_BG.length],
+          borderColor:     isPolar ? CHART_BD : CHART_BD[i % CHART_BD.length],
+          borderWidth: 2,
+          borderRadius: meta.chartType === 'bar' ? 4 : 0,
+        }))
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: {
+            display: datasets.length > 1 || isPolar,
+            labels: { color: muted, font: { family: 'Arial', size: 14 } }
+          }
+        },
+        scales: isPolar ? {} : {
+          x: { ticks: { color: muted, font: { size: 13 } }, grid: { color: border } },
+          y: { ticks: { color: muted, font: { size: 13 } }, grid: { color: border } }
+        }
+      }
+    });
+    instance._chartRealData = realData;
+    instance._chartAnimated = false;
+    _chartInstances.push({ chart: instance, isPolar });
+  });
+}
+
+function _animateChartOnSlide(idx) {
+  _chartInstances.forEach(({ chart }) => {
+    const slide = chart.canvas.closest('.slide');
+    if (!slide) return;
+    const slideIdx = parseInt(slide.dataset.index);
+    if (slideIdx !== idx || chart._chartAnimated) return;
+    chart._chartAnimated = true;
+    chart.data.datasets.forEach((ds, i) => {
+      ds.data = chart._chartRealData[i];
+    });
+    chart.options.animation = { duration: 2000, easing: 'easeOutQuart' };
+    chart.update();
+  });
+}
+
+function _buildImageCompare(meta, bullets, index) {
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="image-compare-layout">
+      <div class="image-compare-text">
+        <ul class="points">${_bullets(bullets)}</ul>
+      </div>
+      <div class="image-compare-images">
+        ${meta.img ? `<img class="image-compare-img" src="${meta.img}" alt="${meta.cap1 || ''}" onerror="this.style.opacity='.3'">` : ''}
+        ${meta.img2 ? `<img class="image-compare-img" src="${meta.img2}" alt="${meta.cap2 || ''}" onerror="this.style.opacity='.3'">` : ''}
+      </div>
+    </div>
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildSplitStack(meta, top, bottom, index) {
+  const el = _makeSlide('slide-content', meta, index);
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="split-stack-layout">
+      <div class="split-stack-text">
+        <div class="col-block">
+          ${meta.topLabel ? `<div class="col-label">${meta.topLabel}</div>` : ''}
+          <ul class="points">${_bullets(top)}</ul>
+        </div>
+        <div class="col-block">
+          ${meta.bottomLabel ? `<div class="col-label">${meta.bottomLabel}</div>` : ''}
+          <ul class="points">${_bullets(bottom)}</ul>
+        </div>
+      </div>
+      <div class="split-stack-img-wrap">
+        ${meta.img ? `<img class="split-stack-img" src="${meta.img}" alt="${meta.caption || ''}" onerror="this.style.opacity='.3'">${meta.caption ? `<div class="image-compare-label">${meta.caption}</div>` : ''}` : ''}
+      </div>
+    </div>
+    ${_footer(index)}`;
+  return el;
+}
+
+function _buildRefs(meta, bullets, index) {
+  const el = _makeSlide('slide-content', meta, index);
+  const n = bullets.length;
+  let gridClass = 'refs-grid';
+  if (n > 30) gridClass = 'refs-grid-compact';
+  else if (n > 15) gridClass = 'refs-grid-dense';
+  const items = bullets.map(b =>
+    `<div class="ref-item"><span class="ref-dot"></span><span class="ref-text">${_inlineMd(b)}</span></div>`
+  ).join('');
+  el.innerHTML = `
+    <div class="slide-header">
+      <span class="slide-number">${String(index + 1).padStart(2,'0')}</span>
+      <h2 class="slide-title">${_titleMd(meta.title || '')}</h2>
+    </div>
+    <div class="${gridClass}">${items}</div>
+    ${_footer(index)}`;
+  return el;
+}
+
+function renderMarkdownSlides() {
+  const source  = document.getElementById('markdown-source').textContent;
+  const stage   = document.getElementById('stage');
+  const blocks  = source.split(/^---$/m).filter(b => b.trim());
+  const pending = [];
+  let slideIdx  = 0;
+
+  stage.innerHTML = '';
+
+  blocks.forEach(block => {
+    const lines = block.trim().split('\n');
+    const meta  = {};
+    const bullets = [], left = [], right = [], top = [], bottom = [];
+    const datasets = [];
+    let section = 'main';
+
+    lines.forEach(line => {
+      const lt = line.trim();
+      const l  = line;
+      if      (lt.startsWith('# '))          meta.title      = lt.slice(2);
+      else if (lt.startsWith('type:'))        meta.type       = lt.slice(5).trim();
+      else if (lt.startsWith('img:'))         meta.img        = lt.slice(4).trim();
+      else if (lt.startsWith('img2:'))        meta.img2       = lt.slice(5).trim();
+      else if (lt.startsWith('cap1:'))        meta.cap1       = lt.slice(5).trim();
+      else if (lt.startsWith('cap2:'))        meta.cap2       = lt.slice(5).trim();
+      else if (lt.startsWith('right-img:'))   meta.rightImg   = lt.slice(10).trim();
+      else if (lt.startsWith('right-cap:'))   meta.rightCap   = lt.slice(10).trim();
+      else if (lt.startsWith('eyebrow:'))     meta.eyebrow    = lt.slice(8).trim();
+      else if (lt.startsWith('subtitle:'))    meta.subtitle   = lt.slice(9).trim();
+      else if (lt.startsWith('source:'))      meta.source     = lt.slice(7).trim();
+      else if (lt.startsWith('caption:'))     meta.caption    = lt.slice(8).trim();
+      else if (lt.startsWith('chart-type:'))  meta.chartType  = lt.slice(11).trim();
+      else if (lt.startsWith('labels:'))      meta.labels     = lt.slice(7).split(',').map(s => s.trim());
+      else if (lt.startsWith('top-label:'))   meta.topLabel   = lt.slice(10).trim();
+      else if (lt.startsWith('bottom-label:')) meta.bottomLabel = lt.slice(13).trim();
+      else if (lt.startsWith('left-label:'))  meta.leftLabel  = lt.slice(11).trim();
+      else if (lt.startsWith('right-label:')) meta.rightLabel = lt.slice(12).trim();
+      else if (lt.startsWith('no-count'))     meta.noCount    = true;
+      else if (lt.startsWith('dataset:')) {
+        const [lbl, vals] = lt.slice(8).split('|');
+        datasets.push({ label: lbl.trim(), data: vals.split(',').map(s => +s.trim()) });
+      }
+      else if (lt.startsWith('data:'))  meta.rawData = lt.slice(5).split(',').map(s => +s.trim());
+      else if (lt.startsWith('label:')) meta.label = lt.slice(6).trim();
+      else if (l.match(/^\s{2,}[\*\-] /)) {
+        const t = l.trim().slice(2);
+        const target = section === 'top' ? top : section === 'bottom' ? bottom : section === 'left' ? left : section === 'right' ? right : bullets;
+        const last = target[target.length - 1];
+        if (typeof last === 'string') {
+          target[target.length - 1] = { text: last, subs: [t] };
+        } else if (last && typeof last === 'object') {
+          last.subs.push(t);
+        }
+      }
+      else if (lt.startsWith('* ') || lt.startsWith('- ')) {
+        const t = lt.slice(2);
+        if (section === 'top') top.push(t);
+        else if (section === 'bottom') bottom.push(t);
+        else if (section === 'left') left.push(t);
+        else if (section === 'right') right.push(t);
+        else bullets.push(t);
+      }
+      else if (l === 'top:')           section = 'top';
+      else if (l === 'bottom:')        section = 'bottom';
+      else if (l === 'left:')          section = 'left';
+      else if (l === 'right:')         section = 'right';
+      else if (lt.startsWith('> '))     meta.quote = lt.slice(2);
+      else if (lt.startsWith('Notes:')) meta.notes = lt.slice(6).trim();
+    });
+
+    /* Montar dataset único (data: + label: — ordem indiferente no bloco) */
+    if (meta.rawData) datasets.push({ label: meta.label || '', data: meta.rawData });
+
+    const type = meta.type || 'content';
+    let slide;
+    switch (type) {
+      case 'cover':   slide = _buildCover(meta, slideIdx); break;
+      case 'quote':   slide = _buildQuote(meta, slideIdx); break;
+      case 'two-col': slide = _buildTwoCol(meta, left, right, slideIdx); break;
+      case 'image':   slide = _buildImage(meta, slideIdx); break;
+      case 'image-compare': slide = _buildImageCompare(meta, bullets, slideIdx); break;
+      case 'split-stack': slide = _buildSplitStack(meta, top, bottom, slideIdx); break;
+      case 'chart':   slide = _buildChart(meta, datasets, slideIdx, pending); break;
+      case 'chart-content': slide = _buildChartContent(meta, bullets, datasets, slideIdx, pending); break;
+      case 'refs':
+      case 'references':   slide = _buildRefs(meta, bullets, slideIdx); break;
+      default:        slide = _buildContent(meta, bullets, slideIdx);
+    }
+    stage.appendChild(slide);
+    slideIdx++;
+  });
+
+  /* Preencher footer-left com título do primeiro slide (capa) */
+  const firstTitle = blocks[0] ? (blocks[0].match(/^# (.+)$/m) || [])[1] || '' : '';
+  document.querySelectorAll('[id^="footer-title-"]').forEach(el => el.innerHTML = _titleMd(firstTitle));
+
+  setTimeout(() => _initCharts(pending), 50);
+}
 
 /* Init */
 document.documentElement.setAttribute('data-theme', 'dark');
 updateUI();
 animateBullets(slides[0]);
 applyBgLines(darkMode);
+
+document.getElementById('zoom-indicator').textContent = `Zoom: ${Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-scale')) * 100)}%`;
 </script>
 </body>
 </html>
